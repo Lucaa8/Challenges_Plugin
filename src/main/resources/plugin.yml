@@ -3,8 +3,12 @@ version: ${version}
 description: ${description}
 author: Luca008
 main: ${mainClasss}
-api-version: 1.15
+api-version: 1.16
 prefix: Challenges
+depend:
+  - FabledSkyBlock
+  - SpigotApi
+  - Vault
 commands:
   challenge:
     aliases:

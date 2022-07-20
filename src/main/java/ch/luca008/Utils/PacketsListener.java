@@ -1,7 +1,7 @@
 package ch.luca008.Utils;
 
-import NBT.NMSManager;
 import ch.luca008.Challenges;
+import ch.luca008.SpigotApi.SpigotApi;
 import io.netty.channel.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -52,8 +52,8 @@ public class PacketsListener implements Listener {
     }
 
     private void checkIsland(Player sender, Object packet) throws Exception {
-        if(packet.getClass().equals(NMSManager.getNMSClass("PacketPlayInUpdateSign"))){
-            Class<?> cBaseBlockPosition = NMSManager.getNMSClass("BaseBlockPosition");
+        if(packet.getClass().equals(SpigotApi.getReflectionApi().spigot().getNMSClass("PacketPlayInUpdateSign"))){
+            Class<?> cBaseBlockPosition = SpigotApi.getReflectionApi().spigot().getNMSClass("BaseBlockPosition");
             Object oBlockPosition = getField(packet, "a");
             Location block = new Location(sender.getWorld(),
                     ((Number)cBaseBlockPosition.getMethod("getX").invoke(oBlockPosition)).doubleValue(),

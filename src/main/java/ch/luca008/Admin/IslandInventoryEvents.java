@@ -1,12 +1,12 @@
 package ch.luca008.Admin;
 
-import NBT.NBTTag;
 import ch.luca008.Challenges;
 import ch.luca008.ChallengesManager.Categories.Category;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.Commands.ChallengeAdminCommand;
-import ch.luca008.Utils.PromptPlayer;
+import ch.luca008.SpigotApi.Api.NBTTagsApi;
+import ch.luca008.SpigotApi.SpigotApi;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,7 +19,6 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -63,7 +62,7 @@ public class IslandInventoryEvents implements Listener {
                                 session.display(null,-1);
                             }
                             else if(item.getType()==Material.OAK_SIGN){
-                                NBTTag nbt = new NBTTag(item);
+                                NBTTagsApi.NBTItem nbt = SpigotApi.getNbtApi().getNBT(item);
                                 if(nbt.hasTag("UUID")&&nbt.getString("UUID").equals("MainManager")){
                                     if(e.isRightClick()){
                                         for(Category c : Challenges.getManager().getCategories()){
@@ -96,7 +95,7 @@ public class IslandInventoryEvents implements Listener {
                                 }
                             }
                             else{
-                                NBTTag nbt = new NBTTag(item);
+                                NBTTagsApi.NBTItem nbt = SpigotApi.getNbtApi().getNBT(item);
                                 if(nbt.hasTag("UUID")){
                                     String tag = nbt.getString("UUID");
                                     if(tag.startsWith("Category_")){

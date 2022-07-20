@@ -1,7 +1,8 @@
 package ch.luca008.Utils;
 
-import NBT.NMSManager;
 import ch.luca008.Challenges;
+import ch.luca008.SpigotApi.Api.ReflectionApi;
+import ch.luca008.SpigotApi.SpigotApi;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -66,34 +67,35 @@ public class PromptPlayer {
             System.arraycopy(temp, 0, initialLines, 0, 4);
         }
         packetsListener.add(p);
+        ReflectionApi.Spigot s = SpigotApi.getReflectionApi().spigot();
         Location l = p.getLocation();
         //WorldServer
         Object ows = l.getWorld().getClass().getMethod("getHandle").invoke(l.getWorld());
         //BlockPosition
-        Object obp = NMSManager.getNMSClass("BlockPosition").getConstructor(int.class, int.class, int.class).newInstance(l.getBlockX(), l.getBlockY(), l.getBlockZ());
+        Object obp = s.getNMSClass("BlockPosition").getConstructor(int.class, int.class, int.class).newInstance(l.getBlockX(), l.getBlockY(), l.getBlockZ());
         //CraftBlockData
-        Class<?> cBlockData = NMSManager.getOBCClass("block.data","CraftBlockData");
+        Class<?> cBlockData = s.getOBCClass("block.data","CraftBlockData");
         Object oBlockData = cBlockData.cast(Material.OAK_SIGN.createBlockData());
         Object oBlock = cBlockData.getMethod("getState").invoke(oBlockData);
         //TileSignEntity
-        Object oSign = NMSManager.getNMSClass("TileEntitySign").getConstructor().newInstance();
-        oSign.getClass().getMethod("setLocation", NMSManager.getNMSClass("World"), obp.getClass()).invoke(oSign, ows, obp);
-        oSign.getClass().getMethod("setColor", NMSManager.getNMSClass("EnumColor")).invoke(oSign, NMSManager.getNMSClass("EnumColor").getMethod("valueOf", String.class).invoke(null, Challenges.getGlobalConfig().getPromptColor().name()));
-        Object olines = NMSManager.getOBCClass("block","CraftSign").getMethod("sanitizeLines", String[].class).invoke(null, (Object) initialLines);
+        Object oSign = s.getNMSClass("TileEntitySign").getConstructor().newInstance();
+        oSign.getClass().getMethod("setLocation", s.getNMSClass("World"), obp.getClass()).invoke(oSign, ows, obp);
+        oSign.getClass().getMethod("setColor", s.getNMSClass("EnumColor")).invoke(oSign, s.getNMSClass("EnumColor").getMethod("valueOf", String.class).invoke(null, Challenges.getGlobalConfig().getPromptColor().name()));
+        Object olines = s.getOBCClass("block","CraftSign").getMethod("sanitizeLines", String[].class).invoke(null, (Object) initialLines);
         Object olinesField = oSign.getClass().getField("lines").get(oSign);
         System.arraycopy(olines, 0, olinesField, 0, Array.getLength(olinesField));
-        Object oNBT = oSign.getClass().getMethod("save", NMSManager.getNMSClass("NBTTagCompound")).invoke(oSign, NMSManager.getNMSClass("NBTTagCompound").getConstructor().newInstance());
+        Object oNBT = oSign.getClass().getMethod("save", s.getNMSClass("NBTTagCompound")).invoke(oSign, s.getNMSClass("NBTTagCompound").getConstructor().newInstance());
         //PacketPlayOutBlockChange
-        Object oPacketBC = NMSManager.getNMSClass("PacketPlayOutBlockChange").getConstructor(NMSManager.getNMSClass("IBlockAccess"), obp.getClass()).newInstance(ows, obp);
+        Object oPacketBC = s.getNMSClass("PacketPlayOutBlockChange").getConstructor(s.getNMSClass("IBlockAccess"), obp.getClass()).newInstance(ows, obp);
         oPacketBC.getClass().getField("block").set(oPacketBC, oBlock);
         //PacketPlayOutTileEntityData
-        Object oPacketOTED = NMSManager.getNMSClass("PacketPlayOutTileEntityData").getConstructor(obp.getClass(), int.class, oNBT.getClass()).newInstance(obp, 9, oNBT);
+        Object oPacketOTED = s.getNMSClass("PacketPlayOutTileEntityData").getConstructor(obp.getClass(), int.class, oNBT.getClass()).newInstance(obp, 9, oNBT);
         //PacketPlayOutOpenSignEditor
-        Object oPacketOSE = NMSManager.getNMSClass("PacketPlayOutOpenSignEditor").getConstructor(obp.getClass()).newInstance(obp);
+        Object oPacketOSE = s.getNMSClass("PacketPlayOutOpenSignEditor").getConstructor(obp.getClass()).newInstance(obp);
         //sendPacket
         Object oep = p.getClass().getMethod("getHandle").invoke(p);
         Object playerConnection = oep.getClass().getField("playerConnection").get(oep);
-        Method sendPacket = playerConnection.getClass().getMethod("sendPacket", NMSManager.getNMSClass("Packet"));
+        Method sendPacket = playerConnection.getClass().getMethod("sendPacket", s.getNMSClass("Packet"));
         sendPacket.invoke(playerConnection, oPacketBC);
         sendPacket.invoke(playerConnection, oPacketOTED);
         sendPacket.invoke(playerConnection, oPacketOSE);

@@ -1,21 +1,16 @@
 package ch.luca008.Items.Meta;
 
-import NBT.NBTTag;
-import ch.luca008.Challenges;
-import ch.luca008.ChallengesManager.Challenges.Challenge;
+import ch.luca008.SpigotApi.Api.NBTTagsApi;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.json.simple.JSONObject;
 
 import javax.annotation.Nullable;
-import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 public class Skull implements Meta{
@@ -56,7 +51,7 @@ public class Skull implements Meta{
                 }
             }
             else{//MCHEADS
-                NBTTag nbt = new NBTTag(item);
+                NBTTagsApi.NBTItem nbt = SpigotApi.getNbtApi().getNBT(item);
                 if(nbt.hasTags()&&owner!=null){
                     try{
                         String value = nbt.getTags().toString().split("Value:\"")[1];
@@ -72,7 +67,7 @@ public class Skull implements Meta{
 
     public static boolean hasMeta(ItemStack item){
         if(item.getType()!=Material.PLAYER_HEAD)return false;
-        return new NBTTag(item).hasTag("SkullOwner");
+        return SpigotApi.getNbtApi().getNBT(item).hasTag("SkullOwner");
     }
 
     @Override

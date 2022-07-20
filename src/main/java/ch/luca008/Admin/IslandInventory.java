@@ -1,6 +1,5 @@
 package ch.luca008.Admin;
 
-import NBT.NBTTag;
 import ch.luca008.Challenges;
 import ch.luca008.ChallengesManager.Categories.Category;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
@@ -8,6 +7,7 @@ import ch.luca008.ChallengesManager.Inventory.Utils;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.Items.Item;
 import ch.luca008.Items.ItemBuilder;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.Utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -133,7 +133,7 @@ public class IslandInventory {
                     }
                     itemB.setName("§a"+c.getName());
                     itemB.setUid("Category_"+c.getUuid().toString());
-                    inv.setItem(Utils.getCategoryRealSlot(c.getSlot()), new NBTTag(itemB.createItem().toItemStack(1)).setTag("HideFlags",63).getBukkitItem());
+                    inv.setItem(Utils.getCategoryRealSlot(c.getSlot()), SpigotApi.getNbtApi().getNBT(itemB.createItem().toItemStack(1)).setTag("HideFlags",63).getBukkitItem());
                 }
             }
             inv.setItem(4, new ItemBuilder().setMaterial(Material.OAK_SIGN).setName("§aGérer les catégories").setLore(StringUtils.asLore("§eCatégories débloquées: §6"+unlocked+"§e/§6"+categoryList.size()+"\n§eNether: §6"+(storage.canAccess(Storage.AccessType.NETHER)?"Oui":"Non")+"\n§eEnd: §6"+(storage.canAccess(Storage.AccessType.END)?"Oui":"Non")+"\n§cClic gauche pour modifier les accès aux mondes\n§4§lClic droit pour tout réinitialiser")).setUid("MainManager").createItem().toItemStack(1));
@@ -168,7 +168,7 @@ public class IslandInventory {
                     }
                     itemB.setName("§a"+cha.getName());
                     itemB.setUid("Challenge_"+cha.getUuid().toString());
-                    inv.setItem(Utils.getCategoryRealSlot(cha.getSlot()), new NBTTag(itemB.createItem().toItemStack(1)).setTag("HideFlags",63).getBukkitItem());
+                    inv.setItem(Utils.getCategoryRealSlot(cha.getSlot()), SpigotApi.getNbtApi().getNBT(itemB.createItem().toItemStack(1)).setTag("HideFlags",63).getBukkitItem());
                 }
             }
             inv.setItem(4, new ItemBuilder().setMaterial(category.getIcon().getMaterial()).setName("§aGérer les challenges").setLore(StringUtils.asLore("§eChallenges débloqués: §6"+unlocked+"§e/§6"+challengesList.size())).createItem().toItemStack(1));

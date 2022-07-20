@@ -1,7 +1,8 @@
 package ch.luca008.Utils;
 
-import NBT.NMSManager;
 import ch.luca008.Items.ItemBuilder;
+import ch.luca008.SpigotApi.Api.ReflectionApi;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -45,16 +46,17 @@ public class ItemUtils {
     }
 
     public static ItemStack applySignature(ItemStack item, String encodedURL){
-        Object nmsItem = NMSManager.getNMSItem(item);
-        Object tags = NMSManager.getTags(item);//NBTTagCompound "tag"
-        Class<?> itemstack = NMSManager.getNMSClass("ItemStack");
-        Class<?> nbtbase = NMSManager.getNMSClass("NBTBase");
-        Class<?> nbtstring = NMSManager.getNMSClass("NBTTagString");
-        Class<?> nbtlist = NMSManager.getNMSClass("NBTTagList");
+        ReflectionApi s = SpigotApi.getReflectionApi();
+        Object nmsItem = SpigotApi.getNbtApi().getNMSItem(item);
+        Object tags = SpigotApi.getNbtApi().getNBT(item).getTags(); //NBTTagCompound "tag"
+        Class<?> itemstack = s.spigot().getNMSClass("ItemStack");
+        Class<?> nbtbase = s.spigot().getNMSClass("NBTBase");
+        Class<?> nbtstring = s.spigot().getNMSClass("NBTTagString");
+        Class<?> nbtlist = s.spigot().getNMSClass("NBTTagList");
         Object id = null;
-        Object val = NMSManager.invoke(nbtstring, "a", new Class[]{String.class}, nbtstring, encodedURL);
-        if(Integer.parseInt(NMSManager.ServerVersion.split("_")[1])<16) {//1.15-
-            id = NMSManager.invoke(nbtstring, "a", new Class[]{String.class}, nbtstring, UUID.randomUUID().toString());
+        Object val = SpigotApi.getReflectionApi().invoke(nbtstring, nbtstring, "a", new Class[]{String.class}, encodedURL);
+        if(Integer.parseInt(s.getServerVersion().split("_")[1])<16) {//1.15-
+            id = SpigotApi.getReflectionApi().invoke(nbtstring, nbtstring, "a", new Class[]{String.class}, UUID.randomUUID().toString());
         }
         Object compoundSO = null;
         Object compoundProp = null;
@@ -62,10 +64,10 @@ public class ItemUtils {
         Object textures = null;
         try{
             if(id==null){//rentre uniquement si server version >= 1.16
-                id = NMSManager.getNMSClass("NBTTagIntArray").getConstructor(List.class).newInstance(Arrays.asList(0,0,0,0));
+                id = s.spigot().getNMSClass("NBTTagIntArray").getConstructor(List.class).newInstance(Arrays.asList(0,0,0,0));
             }
             textures = nbtlist.getConstructor().newInstance();
-            compoundSO = NMSManager.getNMSClass("NBTTagCompound").getConstructor().newInstance();
+            compoundSO = s.spigot().getNMSClass("NBTTagCompound").getConstructor().newInstance();
             compoundProp = compoundSO.getClass().getConstructor().newInstance();
             compound0 = compoundSO.getClass().getConstructor().newInstance();
         }catch(NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e){
@@ -73,21 +75,21 @@ public class ItemUtils {
             e.printStackTrace();
         }
         if(compound0!=null){
-            NMSManager.invoke(compound0.getClass(), "set", new Class[]{String.class, nbtbase}, compound0, "Value", val);
+            s.invoke(compound0.getClass(), compound0, "set", new Class[]{String.class, nbtbase}, "Value", val);
         }
         if(textures!=null){
-            NMSManager.invoke(textures.getClass(), "b", new Class[]{int.class, nbtbase}, textures, 0, compound0);
+            s.invoke(textures.getClass(), textures, "b", new Class[]{int.class, nbtbase}, 0, compound0);
         }
         if(compoundProp!=null){
-            NMSManager.invoke(compoundProp.getClass(), "set", new Class[]{String.class, nbtbase}, compoundProp, "textures", textures);
+            s.invoke(compoundProp.getClass(), compoundProp, "set", new Class[]{String.class, nbtbase}, "textures", textures);
         }
         if(compoundSO!=null){
-            NMSManager.invoke(compoundSO.getClass(), "set", new Class[]{String.class, nbtbase}, compoundSO, "Id", id);
-            NMSManager.invoke(compoundSO.getClass(), "set", new Class[]{String.class, nbtbase}, compoundSO, "Properties", compoundProp);
+            s.invoke(compoundSO.getClass(), compoundSO, "set", new Class[]{String.class, nbtbase}, "Id", id);
+            s.invoke(compoundSO.getClass(), compoundSO, "set", new Class[]{String.class, nbtbase}, "Properties", compoundProp);
         }
-        NMSManager.invoke(tags.getClass(), "set", new Class[]{String.class, nbtbase}, tags, "SkullOwner", compoundSO);
-        NMSManager.invoke(itemstack, "setTag", new Class[]{tags.getClass()}, nmsItem, tags);
-        item = NMSManager.getBukkitItem(nmsItem);
+        s.invoke(tags.getClass(), tags, "set", new Class[]{String.class, nbtbase}, "SkullOwner", compoundSO);
+        s.invoke(itemstack, nmsItem, "setTag", new Class[]{tags.getClass()}, tags);
+        item = SpigotApi.getNbtApi().getBukkitItem(nmsItem);
         return item;
     }
 

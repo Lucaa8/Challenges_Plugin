@@ -1,6 +1,5 @@
 package ch.luca008.Utils;
 
-import NBT.NBTTag;
 import ch.luca008.ChallengesManager.Categories.Category;
 import ch.luca008.ChallengesManager.Categories.CategoryBuilder;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
@@ -12,6 +11,7 @@ import ch.luca008.ChallengesManager.Manager;
 import ch.luca008.ChallengesManager.Required.Items;
 import ch.luca008.Items.Item;
 import ch.luca008.Items.Meta.Skull;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import org.bukkit.inventory.ItemStack;
 
@@ -90,7 +90,7 @@ public class AsyncManager {
                     is = s.applyOwner(is, player.getOfflinePlayer().getUniqueId());
                 }
             }
-            return Map.entry(c.getSlot(),ItemUtils.removeNamedColor(new NBTTag(is).setTag("HideFlags",127).getBukkitItem(),c.getName()));
+            return Map.entry(c.getSlot(),ItemUtils.removeNamedColor(SpigotApi.getNbtApi().getNBT(is).setTag("HideFlags",127).getBukkitItem(),c.getName()));
         },executor);
     }
 

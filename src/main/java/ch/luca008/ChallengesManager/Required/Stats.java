@@ -286,7 +286,7 @@ public class Stats implements Required{
             if(isTimeBased){
                 lore += StringUtils.getTime(count, player.getLang())+(progress!=-1?(" §7- §9"+StringUtils.getTime(progress,player.getLang())):"");
             }else if(isDistanceBased){
-                lore += count + player.getUnit("Meter") + (progress!=-1?(" §7- §9"+progress+"/"+count):"");
+                lore += count + " " + player.getUnit("Meter") + (progress!=-1?(" §7- §9"+progress+"/"+count):"");
             }else{
                 lore += count + " §a" + (isSubstatistic()?(StringUtils.enumName(substatistic)):player.getUnit("Times")) +(progress!=-1?(" §7- §9"+progress+"/"+count):"");
             }

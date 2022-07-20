@@ -1,6 +1,5 @@
 package ch.luca008.ChallengesManager.Inventory;
 
-import NBT.NBTTag;
 import ch.luca008.Challenges;
 import ch.luca008.ChallengesManager.Categories.Category;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
@@ -8,13 +7,11 @@ import ch.luca008.ChallengesManager.IslandStorage.InventoryCompletable;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.ChallengesManager.Manager;
 import ch.luca008.ChallengesManager.Required.Items;
-import ch.luca008.ChallengesManager.Required.Required;
 import ch.luca008.ChallengesManager.Reward;
-import ch.luca008.Comparators.ItemCountComparator;
 import ch.luca008.Items.Item;
 import ch.luca008.Items.ItemBuilder;
-import ch.luca008.Items.Meta.Book;
-import ch.luca008.Items.Meta.Skull;
+import ch.luca008.SpigotApi.Api.NBTTagsApi;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.ItemUtils;
 import ch.luca008.Utils.StringUtils;
@@ -23,8 +20,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
@@ -68,7 +63,7 @@ public class ChallengesInventory {
                 Utils.addChangePage(inventory, page, player, "Main");
             }
             Utils.round(inventory,null);
-            inventory.setItem(49, new NBTTag(inventory.getItem(49).clone()).setTag("Challenges","value").setTag("Page",page).getBukkitItem());
+            inventory.setItem(49, SpigotApi.getNbtApi().getNBT(inventory.getItem(49).clone()).setTag("Challenges","value").setTag("Page",page).getBukkitItem());
             return inventory;
         }
         return Bukkit.createInventory(null, 9);
@@ -96,7 +91,7 @@ public class ChallengesInventory {
             }
             inventory.setItem(53,new ItemBuilder().setMaterial(Material.OAK_DOOR).setName(player.getChallengeMessage("Challenge-Item-Door")).setUid("Door").createItem().toItemStack(1));
             Utils.round(inventory, new ItemBuilder().setMaterial(category.getColor()).setName("-").createItem());
-            inventory.setItem(49, new NBTTag(inventory.getItem(49).clone()).setTag("Category",category.getUuid().toString()).setTag("Page",page).getBukkitItem());
+            inventory.setItem(49, SpigotApi.getNbtApi().getNBT(inventory.getItem(49).clone()).setTag("Category",category.getUuid().toString()).setTag("Page",page).getBukkitItem());
             return inventory;
         }
         return Bukkit.createInventory(null, 9);
@@ -169,7 +164,7 @@ public class ChallengesInventory {
                 }
             }
         }
-        NBTTag nbt = new NBTTag(new ItemBuilder().setMaterial(Material.OAK_SIGN).setName("§a▲"+player.getChallengeMessage("Challenge-Item-Required")+" - "+player.getChallengeMessage("Challenge-Item-Reward")+"§a▼").createItem().toItemStack(1));
+        NBTTagsApi.NBTItem nbt = SpigotApi.getNbtApi().getNBT(new ItemBuilder().setMaterial(Material.OAK_SIGN).setName("§a▲"+player.getChallengeMessage("Challenge-Item-Required")+" - "+player.getChallengeMessage("Challenge-Item-Reward")+"§a▼").createItem().toItemStack(1));
         inventory.setItem(22, nbt.setTag("Challenge",c.getUuid().toString()).setTag("ReqPage",reqPage+"").setTag("ReqMax",reqMax+"").setTag("RewPage",rewPage+"").setTag("RewMax",rewMax+"").getBukkitItem());
         ItemStack[] pages = Utils.getSampleInventoryPages(player, reqPage, reqMax, rewPage, rewMax, roundItemstack);
         inventory.setItem(21,pages[0]);
@@ -193,7 +188,7 @@ public class ChallengesInventory {
         Inventory wb = Bukkit.createInventory(null, 27, "§9"+ StringUtils.enumName(recipe.getResult().getType()));
         wb.setItem(26, new ItemBuilder().setMaterial(Material.OAK_DOOR).setName(player.getChallengeMessage("Challenge-Item-Door")).setUid("Door_"+challenge.toString()).createItem().toItemStack(1));
         wb.setItem(12, new ItemBuilder().setMaterial(Material.ARROW).setCustomData(1).setName(player.getChallengeMessage("Inventory-Craft-Result")).createItem().toItemStack(1));
-        wb.setItem(13, new NBTTag(recipe.getResult()).setTag("Req",reqPage+"").setTag("Rew",rewPage+"").getBukkitItem());
+        wb.setItem(13, SpigotApi.getNbtApi().getNBT(recipe.getResult()).setTag("Req",reqPage+"").setTag("Rew",rewPage+"").getBukkitItem());
         ItemStack empty = new ItemBuilder().setMaterial(Material.GRAY_STAINED_GLASS_PANE).setName("§0-").createItem().toItemStack(1);
         for(int i=3;i<wb.getSize()-1;i++){
             wb.setItem(i,empty);

@@ -1,6 +1,5 @@
 package ch.luca008.ChallengesManager.Categories;
 
-import NBT.NBTTag;
 import ch.luca008.Challenges;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
@@ -8,6 +7,7 @@ import ch.luca008.ChallengesManager.Manager;
 import ch.luca008.Items.Item;
 import ch.luca008.Items.ItemBuilder;
 import ch.luca008.Items.Meta.Skull;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.ItemUtils;
 import ch.luca008.Utils.JsonUtils;
@@ -173,7 +173,7 @@ public class Category {
                 is = s.applyOwner(is, player.getOfflinePlayer().getUniqueId());
             }
         }
-        return ItemUtils.removeNamedColor(new NBTTag(is).setTag("HideFlags",127).getBukkitItem(), getName());
+        return ItemUtils.removeNamedColor(SpigotApi.getNbtApi().getNBT(is).setTag("HideFlags",127).getBukkitItem(), getName());
     }
 
     public void reset(UUID island){

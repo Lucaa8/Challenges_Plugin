@@ -1,7 +1,6 @@
 package ch.luca008.Items.Meta;
 
-import NBT.NBTTag;
-import NBT.NMSManager;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -46,7 +45,7 @@ public class TropicalFish implements Meta{
     private int getData() {
         int DataValue = 0;
         try{
-            Class<?> c = NMSManager.getOBCClass("entity","CraftTropicalFish$CraftPattern");
+            Class<?> c = SpigotApi.getReflectionApi().spigot().getOBCClass("entity","CraftTropicalFish$CraftPattern");
             Object value = ((Object[]) c.getMethod("values").invoke(c))[pattern.ordinal()];
             DataValue = (int) value.getClass().getMethod("getDataValue").invoke(value);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
@@ -59,7 +58,7 @@ public class TropicalFish implements Meta{
     public ItemStack apply(ItemStack item) {
         if(item==null||item.getItemMeta()==null)return null;
         if(item.getType()==Material.TROPICAL_FISH_BUCKET){
-            return new NBTTag(item).setTag("BucketVariantTag",getData()).getBukkitItem();
+            return SpigotApi.getNbtApi().getNBT(item).setTag("BucketVariantTag",getData()).getBukkitItem();
         }
         return null;
     }
@@ -93,6 +92,6 @@ public class TropicalFish implements Meta{
     }
 
     public static boolean hasMeta(ItemStack item){
-        return new NBTTag(item).hasTag("BucketVariantTag");
+        return SpigotApi.getNbtApi().getNBT(item).hasTag("BucketVariantTag");
     }
 }

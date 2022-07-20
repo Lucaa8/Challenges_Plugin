@@ -1,6 +1,5 @@
 package ch.luca008.Events;
 
-import NBT.NBTTag;
 import ch.luca008.Challenges;
 import ch.luca008.ChallengesManager.Categories.Category;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
@@ -10,6 +9,8 @@ import ch.luca008.ChallengesManager.Required.CompletableResult;
 import ch.luca008.ChallengesManager.Required.Required;
 import ch.luca008.ChallengesManager.Required.Stats;
 import ch.luca008.Commands.ChallengeAdminCommand;
+import ch.luca008.SpigotApi.Api.NBTTagsApi;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.Broadcast;
 import ch.luca008.Utils.Perms;
@@ -28,7 +29,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -95,7 +95,7 @@ public class ChallengeRelatedEvents implements Listener {
     public void challengesClick(InventoryClickEvent e){
         if(!(e.getWhoClicked() instanceof Player))return;
         Player p = (Player)e.getWhoClicked();
-        NBTTag invInfo = getInventoryInfo(e.getClickedInventory(), 49);
+        NBTTagsApi.NBTItem invInfo = getInventoryInfo(e.getClickedInventory(), 49);
         if(invInfo!=null&&(invInfo.hasTag("Challenges")||invInfo.hasTag("Category"))){
             String access = canAcces(p);
             if(access!=null){
@@ -104,7 +104,7 @@ public class ChallengeRelatedEvents implements Listener {
                 return;
             }
             e.setCancelled(true);
-            NBTTag itemInfo = getItemInfo(e.getCurrentItem());
+            NBTTagsApi.NBTItem itemInfo = getItemInfo(e.getCurrentItem());
             if(itemInfo!=null){
                 Manager m = Challenges.getManager();
                 UniPlayer player = Challenges.getManager().retrieveUniPlayerByUUID(p.getUniqueId());
@@ -182,7 +182,7 @@ public class ChallengeRelatedEvents implements Listener {
     public void sampleInventoryClick(InventoryClickEvent e){
         if(!(e.getWhoClicked() instanceof Player))return;
         Player p = (Player)e.getWhoClicked();
-        NBTTag invInfo = getInventoryInfo(e.getClickedInventory(), 22);
+        NBTTagsApi.NBTItem invInfo = getInventoryInfo(e.getClickedInventory(), 22);
         if(invInfo!=null&&invInfo.hasTag("Challenge")){
             e.setCancelled(true);
             String access = canAcces(p);
@@ -191,7 +191,7 @@ public class ChallengeRelatedEvents implements Listener {
                 p.closeInventory();
                 return;
             }
-            NBTTag itemInfo = getItemInfo(e.getCurrentItem());
+            NBTTagsApi.NBTItem itemInfo = getItemInfo(e.getCurrentItem());
             if(itemInfo!=null){
                 Manager m = Challenges.getManager();
                 Optional<Challenge> c = m.retrieveChallengeByUUID(UUID.fromString(invInfo.getString("Challenge")));
@@ -254,7 +254,7 @@ public class ChallengeRelatedEvents implements Listener {
     public void wbClick(InventoryClickEvent e){
         if(!(e.getWhoClicked() instanceof Player))return;
         Player p = (Player)e.getWhoClicked();
-        NBTTag invInfo = getInventoryInfo(e.getClickedInventory(), 13);
+        NBTTagsApi.NBTItem invInfo = getInventoryInfo(e.getClickedInventory(), 13);
         if(invInfo!=null&&invInfo.hasTag("Req")&&invInfo.hasTag("Rew")){
             e.setCancelled(true);
             String access = canAcces(p);
@@ -263,7 +263,7 @@ public class ChallengeRelatedEvents implements Listener {
                 p.closeInventory();
                 return;
             }
-            NBTTag itemInfo = getItemInfo(e.getCurrentItem());
+            NBTTagsApi.NBTItem itemInfo = getItemInfo(e.getCurrentItem());
             if(itemInfo!=null&&itemInfo.hasTag("UUID")){
                 UniPlayer player = Challenges.getManager().retrieveUniPlayerByUUID(p.getUniqueId());
                 Challenges.getManager().retrieveChallengeByUUID(UUID.fromString(itemInfo.getString("UUID").split("_")[1])).ifPresent(c->{
@@ -289,21 +289,21 @@ public class ChallengeRelatedEvents implements Listener {
         return null;
     }
 
-    private NBTTag getInventoryInfo(Inventory inv, int itemToCheck){
+    private NBTTagsApi.NBTItem getInventoryInfo(Inventory inv, int itemToCheck){
         if(inv!=null){
             if(inv.getSize()>itemToCheck){
                 ItemStack identifier = inv.getItem(itemToCheck);
                 if(identifier!=null&&identifier.getType()!=Material.AIR){
-                    return new NBTTag(identifier);
+                    return SpigotApi.getNbtApi().getNBT(identifier);
                 }
             }
         }
         return null;
     }
 
-    private NBTTag getItemInfo(ItemStack item){
+    private NBTTagsApi.NBTItem getItemInfo(ItemStack item){
         if(item!=null&&item.getType()!=Material.AIR){
-            return new NBTTag(item);
+            return SpigotApi.getNbtApi().getNBT(item);
         }
         return null;
     }

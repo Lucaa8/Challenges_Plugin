@@ -1,10 +1,11 @@
 package ch.luca008.Items;
 
-import NBT.NBTTag;
 import ch.luca008.Items.Meta.Book;
 import ch.luca008.Items.Meta.Meta;
 import ch.luca008.Items.Meta.MetaLoader;
 import ch.luca008.Items.Meta.Skull;
+import ch.luca008.SpigotApi.Api.NBTTagsApi;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.JsonUtils;
 import com.google.common.collect.Multimap;
@@ -19,7 +20,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.json.simple.JSONArray;
@@ -150,7 +150,7 @@ public class Item {
                 }
             }
         }
-        NBTTag nbt = new NBTTag(item);
+        NBTTagsApi.NBTItem nbt = SpigotApi.getNbtApi().getNBT(item);
         if(repairCost>0)nbt.setTag("RepairCost",repairCost);
         if(uid!=null&&!uid.isEmpty())nbt.setTag("UUID", uid);
         return nbt.getBukkitItem();
@@ -290,7 +290,7 @@ public class Item {
                 Damageable d1 = (Damageable) itemMeta1, d2 = (Damageable) itemMeta2;
                 if(!(d1.hasDamage()?d2.hasDamage()&&d1.getDamage()==d2.getDamage():!d2.hasDamage()))return false;
             }
-            NBTTag nbt = new NBTTag(item);
+            NBTTagsApi.NBTItem nbt = SpigotApi.getNbtApi().getNBT(item);
             int itemCost = nbt.hasTag("RepairCost")?Integer.parseInt(nbt.getTag("RepairCost").toString()):0;
             if(!(repairCost>0?repairCost==itemCost:itemCost==0))return false;
             String itemUid = nbt.hasTag("UUID")?(String)nbt.getTag("UUID"):null;
