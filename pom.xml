@@ -6,7 +6,7 @@
 
     <groupId>ch.luca008</groupId>
     <artifactId>Challenges</artifactId>
-    <version>1.1.2</version>
+    <version>1.1.3</version>
 
     <name>Uni-Challenges</name>
     <description>Custom challenges for Skyblock</description>
@@ -32,6 +32,10 @@
             <id>dev-mc</id>
             <url>https://mvn.skyblockv4.fr/repository/dev-mc/</url>
         </repository>
+        <repository>
+            <id>ext-release-local</id>
+            <url>https://repo.dustplanet.de/artifactory/ext-release-local/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -49,9 +53,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.vault</groupId>
-            <artifactId>Vault</artifactId>
-            <version>1.0</version>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

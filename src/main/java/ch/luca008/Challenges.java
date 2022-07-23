@@ -49,7 +49,7 @@ public class Challenges extends JavaPlugin implements Listener {
     private Reset reset;
     private PromptPlayer adminPrompt;
     private SessionManager editor;
-    public final static String clientVersion = "1.1.2";
+    public final static String clientVersion = "1.1.3";
 
     private void commandsRegister(){
         this.getCommand("challenge").setExecutor(new ChallengeCommand());

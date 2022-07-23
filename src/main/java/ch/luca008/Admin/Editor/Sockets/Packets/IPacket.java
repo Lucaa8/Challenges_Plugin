@@ -23,7 +23,7 @@ public interface IPacket {
 
     static JSONObject getPacket(IPacket packet){
         JSONObject json = new JSONObject();
-        json.put("Type", "Challenges.Packet.Packets."+packet.getClass().getSimpleName());
+        json.put("Type", "Challenges_App.Packet.Packets."+packet.getClass().getSimpleName());
         json.put("Body", packet.toJson());
         return json;
     }

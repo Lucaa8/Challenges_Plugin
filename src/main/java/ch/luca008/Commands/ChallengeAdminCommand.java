@@ -403,7 +403,7 @@ public class ChallengeAdminCommand implements CommandExecutor {
         if(Challenges.getEditor().createSession(p)){
             String k = Challenges.getEditor().getCurrent().getKey();
             ComponentBuilder msg = new ComponentBuilder();
-            msg.append("§aSession crée! Tu as §7" + (Challenges.getGlobalConfig().getEditorWaitingAttemps()*0.5) + " §asecondes pour y accéder avant qu'elle ne soit supprimée!\n§7Clé: §r");
+            msg.append("§aSession créée! Tu as §7" + (Challenges.getGlobalConfig().getEditorWaitingAttemps()*0.5) + " §asecondes pour y accéder avant qu'elle ne soit supprimée!\n§7Clé: §r");
             msg.append(new ComponentBuilder("§e"+k).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,new ComponentBuilder("§7Clique pour copier").create())).event(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD,k)).create());
             p.spigot().sendMessage(msg.create());
             return true;
