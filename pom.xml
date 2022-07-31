@@ -19,15 +19,6 @@
     </properties>
 
     <repositories>
-        <!-- This adds the Spigot Maven repository to the build -->
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>public</id>
-            <url>https://repo.songoda.com/repository/public/</url>
-        </repository>
         <repository>
             <id>dev-mc</id>
             <url>https://mvn.skyblockv4.fr/repository/dev-mc/</url>
@@ -39,11 +30,10 @@
     </repositories>
 
     <dependencies>
-        <!--This adds the Spigot API artifact to the build -->
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <artifactId>Spigot</artifactId>
+            <version>1.16.5</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
