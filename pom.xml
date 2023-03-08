@@ -21,7 +21,7 @@
     <repositories>
         <repository>
             <id>dev-mc</id>
-            <url>https://mvn.skyblockv4.fr/repository/dev-mc/</url>
+            <url>https://www.skyblockv4.fr/nexus/repository/dev-mc/</url>
         </repository>
         <repository>
             <id>ext-release-local</id>
