@@ -9,6 +9,7 @@ import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.Utils.Perms;
 import ch.luca008.Utils.Perms.Permission;
 import ch.luca008.Utils.PluginStatisticsUtils;
+import ch.luca008.Utils.SkyblockUtils;
 import ch.luca008.Utils.StringUtils;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.Bukkit;
@@ -62,7 +63,6 @@ public class ChallengeAdminCommand implements CommandExecutor {
             if(islandSessions.containsKey(admin)){
                 islandSessions.get(admin).unload();
                 islandSessions.remove(admin);
-                Challenges.getAdminPrompt().removePlayer(admin);
                 System.out.println("Deleted island session used by player " + admin.toString());
             }
         }
@@ -291,7 +291,7 @@ public class ChallengeAdminCommand implements CommandExecutor {
                                     Storage.AccessType type = Storage.AccessType.valueOf(args[2].toUpperCase());
                                     OfflinePlayer op = Bukkit.getOfflinePlayer(args[3]);
                                     if(op.hasPlayedBefore()){
-                                        UUID island = Challenges.getFabledApi().getIslandUUID(op);
+                                        UUID island = SkyblockUtils.getIslandUUID(op);
                                         if(island!=null){
                                             Optional<Storage> optStorage = Challenges.getManager().retrieveStorageByUUID(island);
                                             Storage storage;
@@ -309,30 +309,26 @@ public class ChallengeAdminCommand implements CommandExecutor {
                                 return false;
                             }
                             if(permManager.hasPermission(Permission.CADMIN_EDITOR_ISLAND)){
-                                if(Challenges.getFabledApi()!=null){
-                                    OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
-                                    UUID island = Challenges.getFabledApi().getIslandUUID(player);
-                                    if(island!=null){
-                                        if(sender instanceof Player){
-                                            Player admin = (Player)sender;
-                                            IslandInventory manager = getIslandSession(admin);
-                                            if(manager!=null){
-                                                deleteIslandSession(admin.getUniqueId());
-                                            }
-                                            manager = createIslandSession(admin, island, player.getName());
-                                            if(manager==null||!manager.isUsable()){
-                                                admin.closeInventory();
-                                                admin.sendMessage("§4Erreur: §cLa session n'a pas pu être créé! Veuillez réessayer ultérieurement.");
-                                                deleteIslandSession(admin.getUniqueId());
-                                            }
-                                        }else{
-                                            sender.sendMessage("§4Erreur: §cCette commande est réservée aux joueurs !");
+                                OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+                                UUID island = SkyblockUtils.getIslandUUID(player);
+                                if(island!=null){
+                                    if(sender instanceof Player){
+                                        Player admin = (Player)sender;
+                                        IslandInventory manager = getIslandSession(admin);
+                                        if(manager!=null){
+                                            deleteIslandSession(admin.getUniqueId());
+                                        }
+                                        manager = createIslandSession(admin, island, player.getName());
+                                        if(manager==null||!manager.isUsable()){
+                                            admin.closeInventory();
+                                            admin.sendMessage("§4Erreur: §cLa session n'a pas pu être créé! Veuillez réessayer ultérieurement.");
+                                            deleteIslandSession(admin.getUniqueId());
                                         }
                                     }else{
-                                        sender.sendMessage("§4Erreur: §cLe joueur §b"+player.getName()+" §cn'a pas d'île pour l'instant!");
+                                        sender.sendMessage("§4Erreur: §cCette commande est réservée aux joueurs !");
                                     }
                                 }else{
-                                    sender.sendMessage("§4Erreur: §cCommande refusée! L'API FabledSkyBlock ne répond pas.");
+                                    sender.sendMessage("§4Erreur: §cLe joueur §b"+player.getName()+" §cn'a pas d'île pour l'instant!");
                                 }
                             }else{
                                 sender.sendMessage(Perms.defaultNoPermMessage);
@@ -350,12 +346,8 @@ public class ChallengeAdminCommand implements CommandExecutor {
                                 if(args[1].equalsIgnoreCase("new")){
                                     if(sender instanceof Player){
                                         Player owner = (Player)sender;
-                                        if(Challenges.getFabledApi()!=null){
-                                            if(!createSession(owner)){
-                                                owner.sendMessage("§cUne session existe déjà. /cadmin statut pour plus d'informations!");
-                                            }
-                                        }else{
-                                            sender.sendMessage("§cIndisponible pour le moment.");
+                                        if(!createSession(owner)){
+                                            owner.sendMessage("§cUne session existe déjà. /cadmin statut pour plus d'informations!");
                                         }
                                     }else{
                                         sender.sendMessage("§cSeuls les joueurs connectés peuvent créer une nouvelle session et y accéder.");

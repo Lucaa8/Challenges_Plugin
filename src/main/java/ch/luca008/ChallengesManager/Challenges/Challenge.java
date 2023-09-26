@@ -6,16 +6,12 @@ import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.ChallengesManager.Manager;
 import ch.luca008.ChallengesManager.Required.*;
 import ch.luca008.ChallengesManager.Reward;
-import ch.luca008.Items.Item;
-import ch.luca008.Items.ItemBuilder;
+import ch.luca008.SpigotApi.Item.ItemBuilder;
 import ch.luca008.UniPlayer;
-import ch.luca008.Utils.ItemUtils;
-import ch.luca008.Utils.JsonUtils;
-import ch.luca008.Utils.Perms;
-import ch.luca008.Utils.StringUtils;
-import com.songoda.skyblock.api.island.Island;
+import ch.luca008.Utils.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.json.simple.JSONObject;
+import com.bgsoftware.superiorskyblock.api.island.Island;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +32,7 @@ public class Challenge {
     private String description;
     private final ChallengeType type;
     private boolean active;
-    private Item icon;
+    private SbItem icon;
     private int page;
     private int slot;
     private int redoneLimit;
@@ -46,7 +42,7 @@ public class Challenge {
     private long lastEdited;
     public boolean asChanged = false;
 
-    public Challenge(UUID uuid, UUID categoryUuid, String name, String description, ChallengeType type, boolean active, Item icon, int page, int slot, int redoneLimit, long lastEdited, Required required, Reward reward) {
+    public Challenge(UUID uuid, UUID categoryUuid, String name, String description, ChallengeType type, boolean active, SbItem icon, int page, int slot, int redoneLimit, long lastEdited, Required required, Reward reward) {
         this.uuid = uuid;
         this.categoryUuid = categoryUuid;
         this.name = name;
@@ -120,10 +116,10 @@ public class Challenge {
         return active;
     }
 
-    public void setIcon(Item icon) {
+    public void setIcon(SbItem icon) {
         this.icon = icon;
     }
-    public Item getIcon() {
+    public SbItem getIcon() {
         return icon;
     }
 
@@ -168,7 +164,7 @@ public class Challenge {
     //SETTERS/GETTERS
 
     //MISC
-    public Item toItem(Storage storage, UniPlayer player){
+    public SbItem toItem(Storage storage, UniPlayer player){
         ItemBuilder ib = new ItemBuilder();
         if(storage.isUnlocked(this).size()>0||(!isActive()&&!Perms.Permission.CHALLENGE_ADMIN_BYPASS.hasPermission(player))){
             ib = ItemUtils.getUnavailableItem(false,isActive(),player);
@@ -211,7 +207,7 @@ public class Challenge {
         }
         ib.setName(Challenges.getGlobalConfig().getChallengeNameColorItem()+getName());
         ib.setUid("Cha_"+getUuid());
-        return ib.createItem();
+        return new SbItem(ib.createItem());
     }
 
     public static TextComponent getMissingChallenges(List<Challenge> challengeList, String baseMsg, UniPlayer player){
@@ -232,7 +228,7 @@ public class Challenge {
                 if(is.isPresent()){
                     Manager m = Challenges.getManager();
                     Island i = is.get();
-                    Storage storage = p.getIslandStorage().orElseGet(() -> m.loadStorage(i.getIslandUUID()));
+                    Storage storage = p.getIslandStorage().orElseGet(() -> m.loadStorage(i.getUniqueId()));
                     List<Challenge> requiredCat = storage.isUnlocked(getCategory());
                     if(requiredCat.isEmpty()){
                         List<Challenge> requiredCha = storage.isUnlocked(this);

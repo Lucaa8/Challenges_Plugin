@@ -4,15 +4,11 @@ import ch.luca008.Challenges;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.ChallengesManager.Manager;
-import ch.luca008.Items.Item;
-import ch.luca008.Items.ItemBuilder;
-import ch.luca008.Items.Meta.Skull;
+import ch.luca008.SpigotApi.Item.ItemBuilder;
+import ch.luca008.SpigotApi.Item.Meta.Skull;
 import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
-import ch.luca008.Utils.ItemUtils;
-import ch.luca008.Utils.JsonUtils;
-import ch.luca008.Utils.Perms;
-import ch.luca008.Utils.StringUtils;
+import ch.luca008.Utils.*;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
@@ -31,14 +27,14 @@ public class Category {
     private String description;
     private boolean active;
     private Material color;
-    private Item icon;
+    private SbItem icon;
     private int page;
     private int slot;
     //only used when a category is edited
     private long lastEdited;
     public boolean asChanged = false;
 
-    public Category(UUID uuid, String name, String description, boolean active, Material color, Item icon, int page, int slot, long lastEdited) {
+    public Category(UUID uuid, String name, String description, boolean active, Material color, SbItem icon, int page, int slot, long lastEdited) {
         this.uuid = uuid;
         this.name = name;
         this.description = description;
@@ -92,10 +88,10 @@ public class Category {
         return color;
     }
 
-    public void setIcon(Item icon) {
+    public void setIcon(SbItem icon) {
         this.icon = icon;
     }
-    public Item getIcon() {
+    public SbItem getIcon() {
         return icon;
     }
 
@@ -164,7 +160,7 @@ public class Category {
         }
         ib.setName(player.getChallengeMessage("Category-Name",Map.entry("{0}",getName())));
         ib.setUid("Cat_"+getUuid());
-        Item i = ib.createItem();
+        SbItem i = new SbItem(ib.createItem());
         ItemStack is = i.toItemStack(1);
         //adds a skullowner if item's type = PLAYER_HEAD
         if(i.getMeta() instanceof Skull){
@@ -173,7 +169,7 @@ public class Category {
                 is = s.applyOwner(is, player.getOfflinePlayer().getUniqueId());
             }
         }
-        return ItemUtils.removeNamedColor(SpigotApi.getNbtApi().getNBT(is).setTag("HideFlags",127).getBukkitItem(), getName());
+        return ItemUtils.removeNamedColor(SpigotApi.getNBTTagApi().getNBT(is).setTag("HideFlags",127).getBukkitItem(), getName());
     }
 
     public void reset(UUID island){

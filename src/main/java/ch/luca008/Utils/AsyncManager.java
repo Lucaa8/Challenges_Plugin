@@ -9,10 +9,10 @@ import ch.luca008.ChallengesManager.IslandStorage.InventoryCompletable;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.ChallengesManager.Manager;
 import ch.luca008.ChallengesManager.Required.Items;
-import ch.luca008.Items.Item;
-import ch.luca008.Items.Meta.Skull;
+import ch.luca008.SpigotApi.Item.Meta.Skull;
 import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -28,8 +28,8 @@ public class AsyncManager {
     public AsyncManager(Manager manager, int poolSize){
         this.manager = manager;
         if(poolSize>0){
-            executor = Executors.newFixedThreadPool(poolSize, Executors.privilegedThreadFactory());
-        }else executor = Executors.newCachedThreadPool(Executors.privilegedThreadFactory());
+            executor = Executors.newFixedThreadPool(poolSize, Executors.defaultThreadFactory());
+        }else executor = Executors.newCachedThreadPool(Executors.defaultThreadFactory());
     }
 
     public void shutdown(){
@@ -77,8 +77,8 @@ public class AsyncManager {
 
     private CompletableFuture<Map.Entry<Integer,ItemStack>> buildItem(Storage storage, Challenge c, UniPlayer player){
         return CompletableFuture.supplyAsync(()-> {
-            Item i = c.toItem(storage, player);
-            i.hideAttributes();
+            SbItem i = c.toItem(storage, player);
+            i.addFlag(ItemFlag.HIDE_ATTRIBUTES);
             if(storage.getStorage(c.getUuid()).getTotalCompleted()>0){
                 i.glow();
             }
@@ -90,7 +90,7 @@ public class AsyncManager {
                     is = s.applyOwner(is, player.getOfflinePlayer().getUniqueId());
                 }
             }
-            return Map.entry(c.getSlot(),ItemUtils.removeNamedColor(SpigotApi.getNbtApi().getNBT(is).setTag("HideFlags",127).getBukkitItem(),c.getName()));
+            return Map.entry(c.getSlot(),ItemUtils.removeNamedColor(SpigotApi.getNBTTagApi().getNBT(is).setTag("HideFlags",127).getBukkitItem(),c.getName()));
         },executor);
     }
 

@@ -4,8 +4,8 @@ import ch.luca008.ChallengesManager.Categories.Category;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.ChallengesManager.Manager;
 import ch.luca008.Utils.JsonUtils;
-import com.google.common.collect.ImmutableList;
-import com.songoda.skyblock.api.island.Island;
+import ch.luca008.Utils.SkyblockUtils;
+import com.bgsoftware.superiorskyblock.api.island.Island;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
@@ -197,8 +197,8 @@ public class UniPlayer {
 
     public Optional<Island> getIsland(){
         Island i = null;
-        if(Challenges.getFabledApi().hasIsland(player.getUniqueId())){
-            i = Challenges.getFabledApi().getIsland(player.getUniqueId());
+        if(SkyblockUtils.hasIsland(player.getUniqueId())){
+            i = SkyblockUtils.getIsland(player.getUniqueId());
         }
         return Optional.ofNullable(i);
     }
@@ -206,7 +206,7 @@ public class UniPlayer {
     public Optional<Storage> getIslandStorage(){
         Optional<Island> is = getIsland();
         if(is.isPresent()){
-            return Challenges.getManager().retrieveStorageByUUID(is.get().getIslandUUID());
+            return Challenges.getManager().retrieveStorageByUUID(is.get().getUniqueId());
         }
         return Optional.empty();
     }

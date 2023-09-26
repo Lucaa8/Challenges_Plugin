@@ -9,13 +9,14 @@ import ch.luca008.ChallengesManager.Required.CompletableResult;
 import ch.luca008.ChallengesManager.Required.Required;
 import ch.luca008.ChallengesManager.Required.Stats;
 import ch.luca008.Commands.ChallengeAdminCommand;
-import ch.luca008.SpigotApi.Api.NBTTagsApi;
+import ch.luca008.SpigotApi.Api.NBTTagApi;
 import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.Broadcast;
 import ch.luca008.Utils.Perms;
-import com.songoda.skyblock.api.event.island.IslandDeleteEvent;
-import com.songoda.skyblock.api.island.Island;
+import ch.luca008.Utils.SkyblockUtils;
+import com.bgsoftware.superiorskyblock.api.events.IslandDisbandEvent;
+import com.bgsoftware.superiorskyblock.api.island.Island;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -78,7 +79,7 @@ public class ChallengeRelatedEvents implements Listener {
                     }
                     else if(msg instanceof Broadcast){
                         Broadcast b = (Broadcast)msg;
-                        e.getPlayer().getIsland().ifPresent(island -> Challenges.getFabledApi().getPlayersOnIsland(island, false, false).
+                        e.getPlayer().getIsland().ifPresent(island -> SkyblockUtils.getPlayersOnIsland(island).
                                 forEach(ispl -> Challenges.getManager().retrieveUniPlayerByUUID(ispl.getUniqueId()).sendMessage(b.getKeyMessage(), b.getReplacements())));
                     }
                     else if(msg instanceof TextComponent){
@@ -95,7 +96,7 @@ public class ChallengeRelatedEvents implements Listener {
     public void challengesClick(InventoryClickEvent e){
         if(!(e.getWhoClicked() instanceof Player))return;
         Player p = (Player)e.getWhoClicked();
-        NBTTagsApi.NBTItem invInfo = getInventoryInfo(e.getClickedInventory(), 49);
+        NBTTagApi.NBTItem invInfo = getInventoryInfo(e.getClickedInventory(), 49);
         if(invInfo!=null&&(invInfo.hasTag("Challenges")||invInfo.hasTag("Category"))){
             String access = canAcces(p);
             if(access!=null){
@@ -104,7 +105,7 @@ public class ChallengeRelatedEvents implements Listener {
                 return;
             }
             e.setCancelled(true);
-            NBTTagsApi.NBTItem itemInfo = getItemInfo(e.getCurrentItem());
+            NBTTagApi.NBTItem itemInfo = getItemInfo(e.getCurrentItem());
             if(itemInfo!=null){
                 Manager m = Challenges.getManager();
                 UniPlayer player = Challenges.getManager().retrieveUniPlayerByUUID(p.getUniqueId());
@@ -182,7 +183,7 @@ public class ChallengeRelatedEvents implements Listener {
     public void sampleInventoryClick(InventoryClickEvent e){
         if(!(e.getWhoClicked() instanceof Player))return;
         Player p = (Player)e.getWhoClicked();
-        NBTTagsApi.NBTItem invInfo = getInventoryInfo(e.getClickedInventory(), 22);
+        NBTTagApi.NBTItem invInfo = getInventoryInfo(e.getClickedInventory(), 22);
         if(invInfo!=null&&invInfo.hasTag("Challenge")){
             e.setCancelled(true);
             String access = canAcces(p);
@@ -191,7 +192,7 @@ public class ChallengeRelatedEvents implements Listener {
                 p.closeInventory();
                 return;
             }
-            NBTTagsApi.NBTItem itemInfo = getItemInfo(e.getCurrentItem());
+            NBTTagApi.NBTItem itemInfo = getItemInfo(e.getCurrentItem());
             if(itemInfo!=null){
                 Manager m = Challenges.getManager();
                 Optional<Challenge> c = m.retrieveChallengeByUUID(UUID.fromString(invInfo.getString("Challenge")));
@@ -254,7 +255,7 @@ public class ChallengeRelatedEvents implements Listener {
     public void wbClick(InventoryClickEvent e){
         if(!(e.getWhoClicked() instanceof Player))return;
         Player p = (Player)e.getWhoClicked();
-        NBTTagsApi.NBTItem invInfo = getInventoryInfo(e.getClickedInventory(), 13);
+        NBTTagApi.NBTItem invInfo = getInventoryInfo(e.getClickedInventory(), 13);
         if(invInfo!=null&&invInfo.hasTag("Req")&&invInfo.hasTag("Rew")){
             e.setCancelled(true);
             String access = canAcces(p);
@@ -263,7 +264,7 @@ public class ChallengeRelatedEvents implements Listener {
                 p.closeInventory();
                 return;
             }
-            NBTTagsApi.NBTItem itemInfo = getItemInfo(e.getCurrentItem());
+            NBTTagApi.NBTItem itemInfo = getItemInfo(e.getCurrentItem());
             if(itemInfo!=null&&itemInfo.hasTag("UUID")){
                 UniPlayer player = Challenges.getManager().retrieveUniPlayerByUUID(p.getUniqueId());
                 Challenges.getManager().retrieveChallengeByUUID(UUID.fromString(itemInfo.getString("UUID").split("_")[1])).ifPresent(c->{
@@ -289,21 +290,21 @@ public class ChallengeRelatedEvents implements Listener {
         return null;
     }
 
-    private NBTTagsApi.NBTItem getInventoryInfo(Inventory inv, int itemToCheck){
+    private NBTTagApi.NBTItem getInventoryInfo(Inventory inv, int itemToCheck){
         if(inv!=null){
             if(inv.getSize()>itemToCheck){
                 ItemStack identifier = inv.getItem(itemToCheck);
                 if(identifier!=null&&identifier.getType()!=Material.AIR){
-                    return SpigotApi.getNbtApi().getNBT(identifier);
+                    return SpigotApi.getNBTTagApi().getNBT(identifier);
                 }
             }
         }
         return null;
     }
 
-    private NBTTagsApi.NBTItem getItemInfo(ItemStack item){
+    private NBTTagApi.NBTItem getItemInfo(ItemStack item){
         if(item!=null&&item.getType()!=Material.AIR){
-            return SpigotApi.getNbtApi().getNBT(item);
+            return SpigotApi.getNBTTagApi().getNBT(item);
         }
         return null;
     }
@@ -313,17 +314,17 @@ public class ChallengeRelatedEvents implements Listener {
         UniPlayer p = Challenges.getManager().retrieveUniPlayerByUUID(e.getPlayer().getUniqueId());
         Optional<Island> optIs = p.getIsland();
         if(optIs.isPresent()&&p.getIslandStorage().isPresent()){
-            if(Challenges.getFabledApi().getOnlinePlayersOnIsland(optIs.get(),false,false).size()==1){
-                if(!ChallengeAdminCommand.hasIslandSession(optIs.get().getIslandUUID())){
-                    Challenges.getManager().unloadStorage(optIs.get().getIslandUUID());
+            if(SkyblockUtils.getOnlinePlayersOnIsland(optIs.get()).size()==1){
+                if(!ChallengeAdminCommand.hasIslandSession(optIs.get().getUniqueId())){
+                    Challenges.getManager().unloadStorage(optIs.get().getUniqueId());
                 }
             }
         }
     }
 
     @EventHandler
-    public void islandDeleteFile(IslandDeleteEvent e){
-        UUID is = e.getIsland().getIslandUUID();
+    public void islandDeleteFile(IslandDisbandEvent e){
+        UUID is = e.getIsland().getUniqueId();
         //unload si chargée
         Challenges.getManager().unloadStorage(is);
         File f = new File(Manager.islandsBaseDirectory, is.toString()+".json");

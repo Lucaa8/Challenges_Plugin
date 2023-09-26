@@ -6,8 +6,8 @@ import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.Comparators.BlockCountComparator;
 import ch.luca008.Comparators.EntitiesCountComparator;
 import ch.luca008.UniPlayer;
-import ch.luca008.Utils.FabledUtils;
 import ch.luca008.Utils.JsonUtils;
+import ch.luca008.Utils.SkyblockUtils;
 import ch.luca008.Utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -166,15 +166,14 @@ public class Island implements Required{
             String msgBlocks = "";
             String msgEntities = "";
             Location ploc = p.getPlayer().get().getLocation();
-            com.songoda.skyblock.api.island.Island island = p.getIsland().get();
-            FabledUtils utils = Challenges.getFabledApi();
+            com.bgsoftware.superiorskyblock.api.island.Island island = p.getIsland().get();
             if(hasBlocks()){
                 Map<Block, Integer> missing = new HashMap<>();
                 List<org.bukkit.block.Block> nearbyBlocks = getNearbyBlocks(ploc);
                 for(Block b : blocks){
                     int got = 0;
                     for(org.bukkit.block.Block block : nearbyBlocks){
-                        if(block.getType()==b.getMaterial()&&utils.isOnIsland(island,block.getLocation()))got++;
+                        if(block.getType()==b.getMaterial()&&SkyblockUtils.isOnIsland(island,block.getLocation()))got++;
                     }
                     int missingCount = b.getCount()-got;
                     if(missingCount>0)missing.put(b, missingCount);
@@ -194,7 +193,7 @@ public class Island implements Required{
                 for(Entity e : entities){
                     int got = 0;
                     for(org.bukkit.entity.Entity entity : nearbyEntities){
-                        if(entity.getType()==e.getEntityType()&&utils.isOnIsland(island,entity.getLocation()))got++;
+                        if(entity.getType()==e.getEntityType()&&SkyblockUtils.isOnIsland(island,entity.getLocation()))got++;
                     }
                     int missingCount = e.getCount()-got;
                     if(missingCount>0)missing.put(e, missingCount);

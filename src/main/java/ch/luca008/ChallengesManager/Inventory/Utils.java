@@ -1,9 +1,10 @@
 package ch.luca008.ChallengesManager.Inventory;
 
 import ch.luca008.Challenges;
-import ch.luca008.Items.Item;
-import ch.luca008.Items.ItemBuilder;
+import ch.luca008.SpigotApi.Item.Item;
+import ch.luca008.SpigotApi.Item.ItemBuilder;
 import ch.luca008.UniPlayer;
+import ch.luca008.Utils.SbItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -52,7 +53,7 @@ public class Utils {
         }
     }
 
-    public static Inventory round(Inventory inv, @Nullable Item item){
+    public static Inventory round(Inventory inv, @Nullable SbItem item){
         if(item==null)item = Challenges.getGlobalConfig().getChallengesMenuIcon();
         round(inv, item.toItemStack(1));
         return inv;

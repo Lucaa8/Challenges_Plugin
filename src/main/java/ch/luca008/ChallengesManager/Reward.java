@@ -4,14 +4,10 @@ import ch.luca008.Challenges;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
 import ch.luca008.ChallengesManager.Required.Items;
 import ch.luca008.ChallengesManager.Required.Others;
-import ch.luca008.Items.ItemBuilder;
 import ch.luca008.UniPlayer;
-import ch.luca008.Utils.ItemUtils;
 import ch.luca008.Utils.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

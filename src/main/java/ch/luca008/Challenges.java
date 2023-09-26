@@ -11,15 +11,11 @@ import ch.luca008.Commands.ChallengeAdminCommand;
 import ch.luca008.Commands.ChallengeCommand;
 import ch.luca008.Events.ChallengeRelatedEvents;
 import ch.luca008.Events.UniPlayerManager;
-import ch.luca008.Utils.FabledUtils;
 import ch.luca008.Utils.PromptPlayer;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,12 +38,10 @@ public class Challenges extends JavaPlugin implements Listener {
     private boolean areChallengesEnabled = false;
     private Manager challenges;
     private ChallengesInventory inventoryManager;
-    private FabledUtils api;
     private Config globalConfig;
     private Lang lang;
     private Economy economy;
     private Reset reset;
-    private PromptPlayer adminPrompt;
     private SessionManager editor;
     public final static String clientVersion = "1.1.3";
 
@@ -67,7 +61,6 @@ public class Challenges extends JavaPlugin implements Listener {
 
     public void onEnable() {
         Main = this;
-        hookFabled();
         challenges = new Manager();
         commandsRegister();
         eventsRegister();
@@ -77,7 +70,6 @@ public class Challenges extends JavaPlugin implements Listener {
         setupEconomy();
         globalConfig = new Config();
         reset = new Reset();
-        adminPrompt = new PromptPlayer();
         editor = new SessionManager();
     }
 
@@ -98,9 +90,6 @@ public class Challenges extends JavaPlugin implements Listener {
                 challenges.getAsyncManager().shutdown();
             }
             challenges = null;
-        }
-        if(adminPrompt!=null){
-            adminPrompt.clear();
         }
         if(getEditor()!=null){
             SessionManager.Session current = getEditor().getCurrent();
@@ -143,10 +132,6 @@ public class Challenges extends JavaPlugin implements Listener {
         return Main.challenges;
     }
 
-    public static FabledUtils getFabledApi(){
-        return Main.api;
-    }
-
     public static Lang getLangManager(){
         return Main.lang;
     }
@@ -173,31 +158,8 @@ public class Challenges extends JavaPlugin implements Listener {
         return Main.reset;
     }
 
-    public static PromptPlayer getAdminPrompt(){
-        return Main.adminPrompt;
-    }
-
     public static SessionManager getEditor() {
         return Main.editor;
-    }
-
-    @EventHandler
-    public void fabledLoad(PluginEnableEvent e){
-        if(e.getPlugin().getName().equals("FabledSkyBlock")){
-            hookFabled();
-        }
-    }
-
-    private void hookFabled(){
-        if(getServer().getPluginManager().isPluginEnabled("FabledSkyBlock")){
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, ()->{
-                api = new FabledUtils();
-                if(getStateFile()){
-                    setChallengesEnabled(true, false);//false car aucune session ne peut etre encore etre crée jusque ici
-                }
-                System.out.println("Challenges now hooked to FabledSkyBlock! Challenges enabled.");
-            }, 60L);
-        }
     }
 
     public static void reloadLang(){

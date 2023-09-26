@@ -10,7 +10,8 @@ import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.AsyncManager;
 import ch.luca008.Utils.JsonUtils;
-import com.songoda.skyblock.api.island.Island;
+import ch.luca008.Utils.SkyblockUtils;
+import com.bgsoftware.superiorskyblock.api.island.Island;
 import org.bukkit.Bukkit;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -217,8 +218,8 @@ public class Manager {
      * @return  void
      */
     public void unloadStorageSafe(UUID island){
-        Island is = Challenges.getFabledApi().retrieveIslandByUUID(island);
-        if(is==null||Challenges.getFabledApi().getOnlinePlayersOnIsland(is,false,false).size()==0){
+        Island is = SkyblockUtils.retrieveIslandByUUID(island);
+        if(is==null||SkyblockUtils.getOnlinePlayersOnIsland(is).size()==0){
             unloadStorage(island);
         }
     }

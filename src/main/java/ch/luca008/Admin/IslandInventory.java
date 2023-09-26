@@ -5,9 +5,9 @@ import ch.luca008.ChallengesManager.Categories.Category;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
 import ch.luca008.ChallengesManager.Inventory.Utils;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
-import ch.luca008.Items.Item;
-import ch.luca008.Items.ItemBuilder;
+import ch.luca008.SpigotApi.Item.ItemBuilder;
 import ch.luca008.SpigotApi.SpigotApi;
+import ch.luca008.Utils.SbItem;
 import ch.luca008.Utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -108,8 +108,8 @@ public class IslandInventory {
         }
         Inventory inv = admin.getOpenInventory().getTopInventory();
         inv.clear();
-        inv.setItem(48, new ItemBuilder().setMaterial(Material.ARROW).setName("§aPrécédent").setCustomData(2).createItem().toItemStack(1));
-        inv.setItem(50, new ItemBuilder().setMaterial(Material.ARROW).setName("§aSuivant").setCustomData(1).createItem().toItemStack(1));
+        inv.setItem(48, new SbItem(new ItemBuilder().setMaterial(Material.ARROW).setName("§aPrécédent").setCustomData(2).createItem()).toItemStack(1));
+        inv.setItem(50, new SbItem(new ItemBuilder().setMaterial(Material.ARROW).setName("§aSuivant").setCustomData(1).createItem()).toItemStack(1));
         if(category==null){
             List<Category> categoryList = Challenges.getManager().getCategories();
             int unlocked = 0;
@@ -119,7 +119,7 @@ public class IslandInventory {
                 if(c.getPage()==page){
                     ItemBuilder itemB = new ItemBuilder();
                     if (isUnlocked) {
-                        Item icon = c.getIcon();
+                        SbItem icon = c.getIcon();
                         itemB.setMaterial(icon.getMaterial());
                         if(icon.getCustomData()>0){
                            itemB.setCustomData(icon.getCustomData());
@@ -133,11 +133,11 @@ public class IslandInventory {
                     }
                     itemB.setName("§a"+c.getName());
                     itemB.setUid("Category_"+c.getUuid().toString());
-                    inv.setItem(Utils.getCategoryRealSlot(c.getSlot()), SpigotApi.getNbtApi().getNBT(itemB.createItem().toItemStack(1)).setTag("HideFlags",63).getBukkitItem());
+                    inv.setItem(Utils.getCategoryRealSlot(c.getSlot()), SpigotApi.getNBTTagApi().getNBT(itemB.createItem().toItemStack(1)).setTag("HideFlags",63).getBukkitItem());
                 }
             }
             inv.setItem(4, new ItemBuilder().setMaterial(Material.OAK_SIGN).setName("§aGérer les catégories").setLore(StringUtils.asLore("§eCatégories débloquées: §6"+unlocked+"§e/§6"+categoryList.size()+"\n§eNether: §6"+(storage.canAccess(Storage.AccessType.NETHER)?"Oui":"Non")+"\n§eEnd: §6"+(storage.canAccess(Storage.AccessType.END)?"Oui":"Non")+"\n§cClic gauche pour modifier les accès aux mondes\n§4§lClic droit pour tout réinitialiser")).setUid("MainManager").createItem().toItemStack(1));
-            Utils.round(inv, new ItemBuilder().setMaterial(Material.BLACK_STAINED_GLASS_PANE).createItem());
+            Utils.round(inv, new SbItem(new ItemBuilder().setMaterial(Material.BLACK_STAINED_GLASS_PANE).createItem()));
         }else{
             List<Challenge> challengesList = Challenges.getManager().getIndex().getChallenges(category);
             Optional<Challenge> activeStatChallengeOpt = storage.getActiveStatChallenge();
@@ -149,7 +149,7 @@ public class IslandInventory {
                 if(cha.getPage()==page){
                     ItemBuilder itemB = new ItemBuilder();
                     if(isUnlocked){
-                        Item icon = cha.getIcon();
+                        SbItem icon = cha.getIcon();
                         itemB.setMaterial(icon.getMaterial());
                         if(icon.getCustomData()>0){
                             itemB.setCustomData(icon.getCustomData());
@@ -168,12 +168,12 @@ public class IslandInventory {
                     }
                     itemB.setName("§a"+cha.getName());
                     itemB.setUid("Challenge_"+cha.getUuid().toString());
-                    inv.setItem(Utils.getCategoryRealSlot(cha.getSlot()), SpigotApi.getNbtApi().getNBT(itemB.createItem().toItemStack(1)).setTag("HideFlags",63).getBukkitItem());
+                    inv.setItem(Utils.getCategoryRealSlot(cha.getSlot()), SpigotApi.getNBTTagApi().getNBT(itemB.createItem().toItemStack(1)).setTag("HideFlags",63).getBukkitItem());
                 }
             }
             inv.setItem(4, new ItemBuilder().setMaterial(category.getIcon().getMaterial()).setName("§aGérer les challenges").setLore(StringUtils.asLore("§eChallenges débloqués: §6"+unlocked+"§e/§6"+challengesList.size())).createItem().toItemStack(1));
             inv.setItem(53, new ItemBuilder().setMaterial(Material.OAK_DOOR).setName("§cRetour").createItem().toItemStack(1));
-            Utils.round(inv, new ItemBuilder().setMaterial(category.getColor()).createItem());
+            Utils.round(inv, new SbItem(new ItemBuilder().setMaterial(category.getColor()).createItem()));
         }
     }
 }

@@ -1,8 +1,8 @@
 package ch.luca008.ChallengesManager.Categories;
 
-import ch.luca008.Items.Item;
-import ch.luca008.Items.ItemBuilder;
+import ch.luca008.SpigotApi.Item.ItemBuilder;
 import ch.luca008.Utils.JsonUtils;
+import ch.luca008.Utils.SbItem;
 import org.bukkit.Material;
 import org.json.simple.JSONObject;
 
@@ -15,7 +15,7 @@ public class CategoryBuilder {
     private String description;
     private boolean active;
     private Material color;
-    private Item icon;
+    private SbItem icon;
     private int page;
     private int slot;
     private long lastEdited;
@@ -39,8 +39,8 @@ public class CategoryBuilder {
             color = Material.valueOf((String)json.get("color"));
         }else color = Material.BLACK_STAINED_GLASS_PANE;
         if(json.containsKey("icon")){
-            icon = Item.fromJson(((JSONObject)json.get("icon")).toString());
-        }else icon = new ItemBuilder().setMaterial(Material.STONE).createItem();
+            icon = SbItem.fromJson(json.get("icon").toString());
+        }else icon = new SbItem(new ItemBuilder().setMaterial(Material.STONE).createItem());
         if(json.containsKey("page")){
             page = JsonUtils.getInt(json,"page");
         }else page = 1;
@@ -77,7 +77,7 @@ public class CategoryBuilder {
         return this;
     }
 
-    public CategoryBuilder setIcon(Item icon) {
+    public CategoryBuilder setIcon(SbItem icon) {
         this.icon = icon;
         return this;
     }

@@ -5,8 +5,9 @@ import ch.luca008.ChallengesManager.Categories.Category;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.Commands.ChallengeAdminCommand;
-import ch.luca008.SpigotApi.Api.NBTTagsApi;
+import ch.luca008.SpigotApi.Api.NBTTagApi;
 import ch.luca008.SpigotApi.SpigotApi;
+import ch.luca008.Utils.PromptPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -62,7 +63,7 @@ public class IslandInventoryEvents implements Listener {
                                 session.display(null,-1);
                             }
                             else if(item.getType()==Material.OAK_SIGN){
-                                NBTTagsApi.NBTItem nbt = SpigotApi.getNbtApi().getNBT(item);
+                                NBTTagApi.NBTItem nbt = SpigotApi.getNBTTagApi().getNBT(item);
                                 if(nbt.hasTag("UUID")&&nbt.getString("UUID").equals("MainManager")){
                                     if(e.isRightClick()){
                                         for(Category c : Challenges.getManager().getCategories()){
@@ -75,7 +76,7 @@ public class IslandInventoryEvents implements Listener {
                                         Bukkit.getConsoleSender().sendMessage("§c!!§4Player "+admin.getName()+" identified with UNIQUEID "+admin.getUniqueId()+" reset ALL the challenges of the island identified with UUID "+session.getIsland()+"§c!!");
                                     }else {
                                         session.setDestroyOnClose(false);
-                                        Challenges.getAdminPrompt().promptPlayer((isCancelled, asMultipleLines, asSingleLine) -> {
+                                        PromptPlayer.promptPlayer(admin, (isCancelled, asMultipleLines, asSingleLine) -> {
                                             if(!isCancelled){
                                                 for(String l : asMultipleLines){
                                                     if(l.contains(":")){
@@ -89,13 +90,13 @@ public class IslandInventoryEvents implements Listener {
                                                 }
                                             }
                                             session.display();
-                                        }, admin, "Nether:","End:","Oui | Non");
+                                        }, "Nether:","End:","Oui | Non");
                                         Bukkit.getScheduler().runTaskLaterAsynchronously(Challenges.Main, ()->session.setDestroyOnClose(true), 10L);
                                     }
                                 }
                             }
                             else{
-                                NBTTagsApi.NBTItem nbt = SpigotApi.getNbtApi().getNBT(item);
+                                NBTTagApi.NBTItem nbt = SpigotApi.getNBTTagApi().getNBT(item);
                                 if(nbt.hasTag("UUID")){
                                     String tag = nbt.getString("UUID");
                                     if(tag.startsWith("Category_")){
@@ -120,7 +121,7 @@ public class IslandInventoryEvents implements Listener {
                                                 session.display();
                                             }else{
                                                 session.setDestroyOnClose(false);
-                                                Challenges.getAdminPrompt().promptPlayer((cancelled,lines,line) -> {
+                                                PromptPlayer.promptPlayer(admin, (cancelled,lines,line) -> {
                                                     if(!cancelled){
                                                         for(String l : lines){
                                                             if(l.contains(":")){
@@ -143,7 +144,7 @@ public class IslandInventoryEvents implements Listener {
                                                         }
                                                     }
                                                     session.display();
-                                                }, admin, "Total:","Daily:");
+                                                }, "Total:","Daily:");
                                                 Bukkit.getScheduler().runTaskLaterAsynchronously(Challenges.Main, ()->session.setDestroyOnClose(true), 10L);
                                             }
                                         }

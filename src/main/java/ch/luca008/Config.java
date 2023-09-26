@@ -1,23 +1,24 @@
 package ch.luca008;
 
 import ch.luca008.ChallengesManager.Manager;
-import ch.luca008.Items.Item;
-import ch.luca008.Items.ItemBuilder;
+import ch.luca008.SpigotApi.Item.ItemBuilder;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.Utils.JsonUtils;
 import ch.luca008.Utils.PromptPlayer;
+import ch.luca008.Utils.SbItem;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.material.Dye;
 import org.json.simple.JSONObject;
 
 public class Config {
 
-    private Item ChallengesMenuIcon = new ItemBuilder().setMaterial(Material.BLACK_STAINED_GLASS_PANE).setName("§0-").createItem();
+    private SbItem ChallengesMenuIcon = new SbItem(new ItemBuilder().setMaterial(Material.BLACK_STAINED_GLASS_PANE).setName("§0-").createItem());
     private String ChallengesDescriptionColor = "§f";
     private String CategoriesDescriptionColor = "§f";
     private String ChallengeNameColorItem = "§f";
     private String CurrencyName = "Coins";
     private boolean doReset = true;
-    private PromptPlayer.SignColor promptColor = PromptPlayer.SignColor.BLACK;
-    private String prompCancelCmd = "exit";
     private int editorPort = 25575;
     private boolean editorLogging = false; //Do log packet in/out ? (Except KeepAlive)
     private int editorKeepAliveTimeout = 60000;
@@ -31,7 +32,7 @@ public class Config {
         JSONObject json = JsonUtils.readFile(Manager.globalConfigFile);
         if(json!=null&&!json.isEmpty()){
             if(json.containsKey("Challenges-Menu-Icon")){
-                ChallengesMenuIcon = Item.fromJson(((JSONObject)json.get("Challenges-Menu-Icon")).toJSONString());
+                ChallengesMenuIcon = SbItem.fromJson(((JSONObject)json.get("Challenges-Menu-Icon")).toJSONString());
             }
             if(json.containsKey("Challenges-Descriptions-Color")){
                 JSONObject j = (JSONObject) json.get("Challenges-Descriptions-Color");
@@ -51,11 +52,11 @@ public class Config {
             }
             if(json.containsKey("Prompt-Color")) {
                 try {
-                    promptColor = PromptPlayer.SignColor.valueOf(((String) json.get("Prompt-Color")).toUpperCase());
+                    SpigotApi.getPromptApi().promptColor = DyeColor.valueOf(((String) json.get("Prompt-Color")).toUpperCase());
                 } catch (Exception ignored) {}
             }
             if(json.containsKey("Prompt-Cancel-CMD")){
-                prompCancelCmd = (String)json.get("Prompt-Cancel-CMD");
+                SpigotApi.getPromptApi().cancelCmd = (String)json.get("Prompt-Cancel-CMD");
             }
             if(json.containsKey("Editor-Port")){
                 editorPort = JsonUtils.getInt(json, "Editor-Port");
@@ -72,7 +73,7 @@ public class Config {
         }
     }
 
-    public Item getChallengesMenuIcon(){
+    public SbItem getChallengesMenuIcon(){
         return ChallengesMenuIcon;
     }
     public String getChallengesDescriptionColor(){
@@ -90,11 +91,11 @@ public class Config {
     public boolean doReset(){
         return doReset;
     }
-    public PromptPlayer.SignColor getPromptColor() {
-        return promptColor;
+    public DyeColor getPromptColor() {
+        return SpigotApi.getPromptApi().promptColor;
     }
-    public String getPrompCancelCmd() {
-        return prompCancelCmd;
+    public String getPromptCancelCmd() {
+        return SpigotApi.getPromptApi().cancelCmd;
     }
     public int getEditorPort(){
         return editorPort;

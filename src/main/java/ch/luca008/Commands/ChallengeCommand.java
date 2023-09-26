@@ -10,12 +10,14 @@ import ch.luca008.Events.ChallengeEvent;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.Perms;
 import ch.luca008.Utils.Perms.Permission;
+import ch.luca008.Utils.SkyblockUtils;
 import ch.luca008.Utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 
 import java.util.List;
 import java.util.Map;
@@ -48,23 +50,18 @@ public class ChallengeCommand implements CommandExecutor {
                 if(!permManager.hasPermission(Permission.CHALLENGE_ADMIN_BYPASS)){
                     uniPlayer.sendMessage("Challenges-Disabled");
                     return false;
-                }else{
-                    if(Challenges.getFabledApi()==null){
-                        p.sendMessage("§cFabled not hooked yet, please wait a few seconds...");
-                        return false;
-                    }
                 }
             }
-            if(!Challenges.getFabledApi().hasIsland(p.getUniqueId())){
+            if(!SkyblockUtils.hasIsland(p.getUniqueId())){
                 uniPlayer.sendMessage("Challenges-No-Island");
                 return false;
             }
-            if(!Challenges.getFabledApi().isOnIsland(p)){
+            if(!SkyblockUtils.isOnIsland(p)){
                 uniPlayer.sendMessage("Challenges-Not-On-Island");
                 return false;
             }
             if(args.length==0){
-                checkLoad(uniPlayer.getIsland().get().getIslandUUID());
+                checkLoad(uniPlayer.getIsland().get().getUniqueId());
                 uniPlayer.openMainMenuInventory();
             }
             else {
@@ -91,7 +88,7 @@ public class ChallengeCommand implements CommandExecutor {
                         if(args.length!=2||!args[1].equals("CONFIRM")){
                             sender.sendMessage("§c/challenge cancel CONFIRM\n/c cancel CONFIRM");
                         }else{
-                            Storage str = checkLoad(uniPlayer.getIsland().get().getIslandUUID());//bug
+                            Storage str = checkLoad(uniPlayer.getIsland().get().getUniqueId());//bug
                             Optional<Challenge> optStarted = str.getActiveStatChallenge();
                             if(optStarted.isPresent()){
                                 Challenge c = optStarted.get();
@@ -111,7 +108,7 @@ public class ChallengeCommand implements CommandExecutor {
                     Category c = Challenges.getManager().retrieveCategoryByName(name).orElse(null);
                     if(c!=null){
                         if(c.isActive()||permManager.hasPermission(Permission.CHALLENGE_ADMIN_BYPASS)){
-                            Storage storage = checkLoad(uniPlayer.getIsland().get().getIslandUUID());
+                            Storage storage = checkLoad(uniPlayer.getIsland().get().getUniqueId());
                             List<Challenge> requiredCat = storage.isUnlocked(c);
                             if (requiredCat.isEmpty()) {
                                 uniPlayer.openCategory(c);

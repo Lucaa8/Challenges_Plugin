@@ -5,6 +5,7 @@ import ch.luca008.ChallengesManager.Challenges.Challenge;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.JsonUtils;
+import ch.luca008.Utils.SkyblockUtils;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
 
@@ -109,9 +110,9 @@ public class Others implements Required{
                 }
             }
             if(islvl!=null&&islvl.getCount()>0){
-                Optional<com.songoda.skyblock.api.island.Island> island = p.getIsland();
+                Optional<com.bgsoftware.superiorskyblock.api.island.Island> island = p.getIsland();
                 if(island.isPresent()){
-                    long lvl = Challenges.getFabledApi().getIsLevel(island.get().getIslandUUID());
+                    long lvl = SkyblockUtils.getIsLevel(island.get().getUniqueId());
                     if(lvl<islvl.getCount()){
                         isCompleted = false;
                         msg += (msg.length()==0?"":"\n")+getMissingMessage(p,"Islvl",c.getName(),(int)lvl,islvl.getCount());

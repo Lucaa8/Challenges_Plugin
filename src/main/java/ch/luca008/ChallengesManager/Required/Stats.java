@@ -7,8 +7,8 @@ import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.Broadcast;
 import ch.luca008.Utils.JsonUtils;
+import ch.luca008.Utils.SkyblockUtils;
 import ch.luca008.Utils.StringUtils;
-import com.songoda.skyblock.api.island.Island;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import com.bgsoftware.superiorskyblock.api.island.Island;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -44,9 +45,9 @@ public class Stats implements Required{
 
     //Called only to fix the time since death bug (see ChallengeRelatedEvents class to get more informations about this fix)
     public static void updateStat(Player p, Statistic statistic){
-        Island island = Challenges.getFabledApi().getIsland(p);
+        Island island = SkyblockUtils.getIsland(p);
         if(island!=null){
-            Storage s = Challenges.getManager().retrieveStorageByUUID(island.getIslandUUID()).orElse(null);
+            Storage s = Challenges.getManager().retrieveStorageByUUID(island.getUniqueId()).orElse(null);
             if(s!=null){
                 Challenge c = s.getActiveStatChallenge().orElse(null);
                 if(c!=null){
@@ -121,7 +122,7 @@ public class Stats implements Required{
     @Nullable
     private Map<Stat,Integer> getValues(@Nullable Island island){
         if(island==null)return null;
-        Optional<Storage> optIslandStorage = Challenges.getManager().retrieveStorageByUUID(island.getIslandUUID());
+        Optional<Storage> optIslandStorage = Challenges.getManager().retrieveStorageByUUID(island.getUniqueId());
         if(optIslandStorage.isPresent()){
             Storage islandStorage = optIslandStorage.get();
             Optional<Challenge> optStartedChallenge = islandStorage.getActiveStatChallenge();
@@ -134,7 +135,7 @@ public class Stats implements Required{
                         StatisticCompletable completable = (StatisticCompletable) islandStorage.getStorage(startedChallenge.getUuid()).getCompletable();
                         if(completable!=null){
                             Map<Stat,Integer> map = new HashMap<>();
-                            List<OfflinePlayer> islandPlayers = Challenges.getFabledApi().getPlayersOnIsland(island,false,false);
+                            List<OfflinePlayer> islandPlayers = SkyblockUtils.getPlayersOnIsland(island);
                             for(Stat s : statsList){
                                 int done = 0;
                                 for(OfflinePlayer islandPlayer : islandPlayers){
@@ -187,7 +188,7 @@ public class Stats implements Required{
                 }
             }else{
                 storage.setStatisticChallengeActive(c);
-                storage.getStorage(c.getUuid()).setCompletable(StatisticCompletable.forIsland(statsList, Challenges.getFabledApi().getPlayersOnIsland(p.getIsland().get(),false,false)));
+                storage.getStorage(c.getUuid()).setCompletable(StatisticCompletable.forIsland(statsList, SkyblockUtils.getPlayersOnIsland(p.getIsland().get())));
                 hasProgressed = true;
                 bcMsg = new Broadcast() {
                     @Override

@@ -3,9 +3,9 @@ package ch.luca008.ChallengesManager.Challenges;
 import ch.luca008.ChallengesManager.Required.Required;
 import ch.luca008.ChallengesManager.Required.RequiredLoader;
 import ch.luca008.ChallengesManager.Reward;
-import ch.luca008.Items.Item;
-import ch.luca008.Items.ItemBuilder;
+import ch.luca008.SpigotApi.Item.ItemBuilder;
 import ch.luca008.Utils.JsonUtils;
+import ch.luca008.Utils.SbItem;
 import org.bukkit.Material;
 import org.json.simple.JSONObject;
 
@@ -18,7 +18,7 @@ public class ChallengeBuilder {
     private String description;
     private Challenge.ChallengeType type = Challenge.ChallengeType.INVENTORY;
     private boolean active = false;
-    private Item icon = new ItemBuilder().setMaterial(Material.STONE).createItem();
+    private SbItem icon = new SbItem("", new ItemBuilder().setMaterial(Material.STONE).createItem());
     private int page = 1;
     private int slot = 10;
     private int redoneLimit = -1;
@@ -48,7 +48,7 @@ public class ChallengeBuilder {
             active = (boolean) json.get("active");
         }
         if(json.containsKey("icon")){
-            icon = Item.fromJson(((JSONObject)json.get("icon")).toString());
+            icon = SbItem.fromJson(json.get("icon").toString());
         }
         if(json.containsKey("page")){
             page = JsonUtils.getInt(json,"page");
@@ -103,7 +103,7 @@ public class ChallengeBuilder {
         return this;
     }
 
-    public ChallengeBuilder setIcon(Item icon) {
+    public ChallengeBuilder setIcon(SbItem icon) {
         this.icon = icon;
         return this;
     }

@@ -1,18 +1,17 @@
 package ch.luca008.ChallengesManager.Required;
 
-import ch.luca008.Challenges;
 import ch.luca008.ChallengesManager.Challenges.Challenge;
 import ch.luca008.ChallengesManager.IslandStorage.InventoryCompletable;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.Comparators.ItemCountComparator;
 import ch.luca008.Comparators.LongBufferComparator;
-import ch.luca008.Items.Item;
-import ch.luca008.Items.ItemBuilder;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.ItemUtils;
 import ch.luca008.Utils.JsonUtils;
+import ch.luca008.Utils.SbItem;
 import ch.luca008.Utils.StringUtils;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
@@ -78,8 +77,9 @@ public class Items implements Required{
      */
     public static ItemStack[] getItems(List<Item> items, @Nullable UniPlayer player, Integer page7){
         List<ItemStack> i = new ArrayList<>();
+        OfflinePlayer offplayer = player != null ? player.getOfflinePlayer() : null;
         for(Item item : items){
-            i.addAll(Arrays.stream(item.getItem().toItemStacks(item.getCount(), player)).collect(Collectors.toList()));
+            i.addAll(Arrays.stream(item.getItem().toItemStacks(item.getCount(), offplayer)).toList());
         }
         ItemStack[] collection = i.toArray(new ItemStack[0]);
         if(page7!=null&&page7>=0){
@@ -179,7 +179,7 @@ public class Items implements Required{
                 for(int i=0;i<=35;i++){
                     if(missing<=0)break;
                     ItemStack current = player.getInventory().getItem(i);
-                    if(item.getItem().isSimilar(current, p)){//p used for book meta {P} balise
+                    if(item.getItem().isSimilar(current, player)){//p used for book meta {P} balise
                         hasProgressed = true;
                         int amount = current.getAmount();
                         if(amount<missing){
@@ -249,8 +249,8 @@ public class Items implements Required{
         int count;
         int increment;
         int sortOrder = -1;
-        ch.luca008.Items.Item item;
-        public Item(ch.luca008.Items.Item item, int count, int increment, int sortOrder){
+        SbItem item;
+        public Item(SbItem item, int count, int increment, int sortOrder){
             this.uuid = UUID.randomUUID();
             this.count = count;
             this.increment = increment;
@@ -262,7 +262,7 @@ public class Items implements Required{
                 uuid = UUID.fromString((String)json.get("UUID"));
             }else uuid = UUID.randomUUID();
             if(json.containsKey("Item")){
-                item = ch.luca008.Items.Item.fromJson(((JSONObject)json.get("Item")).toJSONString());
+                item = SbItem.fromJson(((JSONObject)json.get("Item")).toJSONString());
             }else return;
             if(json.containsKey("Count")){
                 count = JsonUtils.getInt(json, "Count");
@@ -292,7 +292,7 @@ public class Items implements Required{
         public String toString(){
             return "Item(super Items){UUID:"+uuid.toString()+",Item:"+item.toString()+",Count:"+count+",Increment:"+increment+",SortOrder:"+sortOrder+"}";
         }
-        public ch.luca008.Items.Item getItem(){
+        public SbItem getItem(){
             return item;
         }
         public int getCount(){
