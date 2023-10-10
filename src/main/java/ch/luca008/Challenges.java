@@ -11,7 +11,6 @@ import ch.luca008.Commands.ChallengeAdminCommand;
 import ch.luca008.Commands.ChallengeCommand;
 import ch.luca008.Events.ChallengeRelatedEvents;
 import ch.luca008.Events.UniPlayerManager;
-import ch.luca008.Utils.PromptPlayer;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
