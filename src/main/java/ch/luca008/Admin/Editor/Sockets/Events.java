@@ -43,6 +43,9 @@ public class Events implements Listener {
             }
             client.valid = reason==null;
             client.send(new LoginPacket(id, client.valid, reason));
+            if(!client.valid) {
+                Challenges.getEditor().stopSession(null);
+            }
         }
         if(packet instanceof ExitPacket){
             client.session.sendMessage("§cLa session avec l'éditeur va être fermée. §7Raison: §8"+((ExitPacket)packet).getExitReason());
