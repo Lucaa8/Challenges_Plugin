@@ -42,7 +42,7 @@ public class Challenges extends JavaPlugin implements Listener {
     private Economy economy;
     private Reset reset;
     private SessionManager editor;
-    public final static String clientVersion = "1.1.3";
+    public final static String clientVersion = "1.2.0";
 
     private void commandsRegister(){
         this.getCommand("challenge").setExecutor(new ChallengeCommand());
