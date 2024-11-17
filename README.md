@@ -20,6 +20,12 @@ The plugin is fully configured using JSON. It is highly advanced, allowing the c
 - Find the application's repository at the following URL: [Challenges_App](https://github.com/Lucaa8/Challenges_App)
 
 ## Functionalities
+It’s time to present the plugin's various features. Starting with a brief description:
+Challenges are displayed and managed through an inventory interface that any player with an island can open. Once opened, the inventory shows categories, which group together challenges with similar themes—like all challenges related to construction. Players can explore each category to find numerous challenges, all presented in an interactive inventory.
+
+A category or challenge can be locked behind the completion of another challenge. For example, the challenge "Carrot I" must be completed before attempting "Carrot II." Similarly, completing the final challenge in the "Carrot" category may unlock the "Potatoes" category.
+
+When a player completes a challenge, they receive a reward. All players on the island can contribute to the progress of a challenge. For instance, Player1 donates 15 carrots, and Player2 donates 17 carrots to the same challenge; the progress will then show as 32/x carrots donated.
 
 ### Main page
 ### Categories
@@ -30,6 +36,10 @@ The plugin is fully configured using JSON. It is highly advanced, allowing the c
 Active challenge ?
 #### Challenge - OTHER
 ### Challenges Rewards
+#### Command
+#### Message
+#### Money and Experience
+#### Items
 ### Staff interactions
 /cadmin
 
