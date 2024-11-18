@@ -19,6 +19,10 @@ The plugin is fully configured using JSON. It is highly advanced, allowing the c
 
 - Find the application's repository at the following URL: [Challenges_App](https://github.com/Lucaa8/Challenges_App)
 
+## Commands
+
+## Permissions
+
 ## Functionalities
 It’s time to present the plugin's various features. Starting with a brief description:
 Challenges are displayed and managed through an inventory interface that any player with an island can open. Once opened, the inventory shows categories, which group together challenges with similar themes—like all challenges related to construction. Players can explore each category to find numerous challenges, all presented in an interactive inventory.
@@ -28,7 +32,25 @@ A category or challenge can be locked behind the completion of another challenge
 When a player completes a challenge, they receive a reward. All players on the island can contribute to the progress of a challenge. For instance, Player1 donates 15 carrots, and Player2 donates 17 carrots to the same challenge; the progress will then show as 32/x carrots donated.
 
 ### Main page
+Players can open this interface using the **/challenge** or **/c** command once they are on their island. Each item represents a category. The arrows at the bottom allow players to navigate between pages.
+| ![main-menu](https://github.com/user-attachments/assets/e7e97e49-963d-4c62-9e07-a1dc1061fe78) | 
+|:--:| 
+| *The challenges main menu* |
+
 ### Categories
+A category contains several challenges within it. A category can be either locked or unlocked. If an item icon appears, the category is unlocked. If a red glass pane appears, the category is locked. By clicking on it, players can see which challenge(s) need to be completed to unlock it.
+| ![cat-unlocked](https://github.com/user-attachments/assets/ec1e1e47-ce11-476b-bfad-e92d26c8140f) |
+|:--:| 
+| *An unlocked category* |
+
+| ![cat-locked1](https://github.com/user-attachments/assets/fc4df572-31a3-4368-abe4-9010b7964e3f) | ![cat-locked2](https://github.com/user-attachments/assets/091c89a5-5657-4ed1-9ed3-520c75865ec6) |
+|:--:|:--:| 
+| *A locked category* | *Missing challenges to unlock* |
+
+| ![cat-locked3](https://github.com/user-attachments/assets/117074ac-b549-48e9-b533-6a1d423c5045) |
+|:--:| 
+| *For convenience, the player can try to complete the challenge by clicking on the text* |
+
 ### Challenges
 #### Challenge - INVENTORY
 #### Challenge - ISLAND
