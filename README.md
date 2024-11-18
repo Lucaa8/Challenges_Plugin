@@ -96,7 +96,19 @@ Some challenges may require very specific items, such as dyed leather armor, pot
 | *Fails because of the missing squid, then adding it and complete the challenge* |
 
 #### Challenge - STATISTIC
-Statistic challenges are a bit special as 
+"Statistical" challenges are challenges that track the actions of players. For example, "Jump 500 times," "Craft 256 torches," "Kill 50 skeletons," etc. They work a bit differently from other challenges. These challenges must be activated by a player from the island, and only one challenge can be active at a time. The challenge will remain active until it is either completed or canceled by a player from the island. All players on the island contribute to completing the challenge. This means that if the goal is to kill 50 skeletons and Player1 kills 27 and Player2 kills 23, the challenge can be completed.
+| ![image](https://github.com/user-attachments/assets/bd7920d9-c6ac-4ea4-bc7f-5f05c31c9d86) |
+|:--:| 
+| *An inactive statistic challenge* |
+
+| ![challenge_stat_alreadyactive](https://github.com/user-attachments/assets/180b1d04-4fc2-4069-9891-22dccf49b648) |
+|:--:| 
+| *A player tried to enable a second statistic challenge before ending the first one* |
+
+| ![challenge_stat_completed](https://github.com/user-attachments/assets/9af317a0-771a-46dc-be3a-ee53ca8430b9) |
+|:--:| 
+| *A player complete the current active statistic challenge by mining the last missing block* |
+
 #### Challenge - OTHER
 ### Challenges Rewards
 #### Command
