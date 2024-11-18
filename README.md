@@ -2,8 +2,12 @@
 
 Every person who has played the "Skyblock" game mode in Minecraft knows how important and fun challenges are. Unfortunately, in most Skyblock plugins, the challenges are very limited to just a few tasks, such as "Have x carrots in your inventory" or "Place x stone blocks on your island." The same goes for the range of rewards, which is often very restricted. The goal of this "Challenges" plugin is to bring a real sense of challenge to players by introducing new, never-before-seen tasks while maintaining a simple and efficient management system for both players and staff. A variety of unique rewards can be offered to players to motivate them to complete these increasingly crazy tasks.
 
-## Copyright
-
+## ⚠️ Usage Restrictions
+This code is provided for **exposition and demonstration only**. You are not allowed to:
+- Download a compiled release of this project for public use.
+- Compile or use **any** of this code, whether for commercial or non-commercial purposes.
+### Important:
+Any use of this code in violation of these restrictions, especially on publicly accessible servers or for paid services, constitutes a breach of the terms. If you wish to discuss a specific use case, please contact me directly.
 
 ## Dependencies
 - Spigot/Paper 1.20
