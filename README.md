@@ -194,7 +194,40 @@ The entire plugin is currently available in English and French, with separate la
 | *Changing the lang in game with /c lang <lang>|reset* |
 
 ### Staff interactions
-/cadmin
+Staffs have special tools to moderate challenges and islands in game, from disabling challenges to resetting an island's challenges completions (i.e. in case of cheating). Find all the permissions at the end of this file.
+
+#### Commands
+- **/cadmin <enable>|<disable>|<status>** Can enable or disable the whole plugin for players. For the status argument, check the illustration below.
+- **/cadmin reload <lang>|<config>** Can reload the `config.json` file or the `Lang` folder. Which allows minor changes to be affected directly without restarting the server.
+- **/cadmin cat|cha <name>** Sends the player a list of information about this category or challenge. See the illustration below.
+- **/cadmin toggle cat|cha <name>** Can enable or disable a specific category or challenge for player. Maybe if you're working on it or a bug has been found.
+- **/cadmin island <player>** Opens the main menu challenge inventory from the player's island but as admin mode. Check the illustration below.
+- **/cadmin editor <new>|<kill \[reason\]>** Generates a token to the player for the Csharp application. The player is able to edit any category/challenge inside the app
+
+#### Illustrations (Mostly in French, sorry!)
+
+| ![challenges_admin_statut](https://github.com/user-attachments/assets/3e2d0276-0677-4d6b-88fd-2c5f654d4117) |
+|:--:| 
+| *The /cadmin status command gives general information about the plugin's state* |
+
+| ![image](https://github.com/user-attachments/assets/50c9d806-a4b8-4c61-a5d5-9449ca2cc596) |
+|:--:| 
+| *The /cadmin cha\|cat <name> gives general information about a category or challenge* |
+
+| ![cadmin_island_global](https://github.com/user-attachments/assets/ab5a6ec7-42f8-438e-adfd-eee956ff578a) |
+|:--:| 
+| *The /cadmin island \<player\> let the admin see general information about the island, enable/disable world islands or reset the whole challenges for this island* |
+
+| ![cadmin_island_reset](https://github.com/user-attachments/assets/d7067728-0a37-405d-90ed-c31fc272a086) | ![image](https://github.com/user-attachments/assets/d47d0e53-3802-4d95-9d12-e736ba65eecf) |
+|:--:|:--:| 
+| *It also allows an admin to reset a whole category by right clicking on it* | *It shows that only 1 over 7 challenges are now unlocked* |
+
+| ![cadmin_island_edit](https://github.com/user-attachments/assets/a7fc835c-7c7c-424b-87fa-e54045c4b52c) | ![image](https://github.com/user-attachments/assets/dc66b1fc-dce8-4cd3-8c59-dbcd5de140b5) |
+|:--:|:--:| 
+| *An admin can decide the number of times any challenge has been done in total or daily* | *Final result when, as a player, i'm running the /c command* |
+
+#### Editor
+Inside the editor, an admin would be able to fully edit ANY category or challenge, from the name of the challenge to the enchantment on one of the item given as reward. Please check the `README.md` file from this [repository](https://github.com/Lucaa8/Challenges_App/blob/main/README.md) if you're interested on learning how the application is working.
 
 ## Commands (Players)
 - Open the main menu `/c` or `/challenge`
