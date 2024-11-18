@@ -110,6 +110,20 @@ Some challenges may require very specific items, such as dyed leather armor, pot
 | *A player complete the current active statistic challenge by mining the last missing block* |
 
 #### Challenge - OTHER
+And finally, three additional types of challenges.
+- **Island Level**: Every time players place blocks on their island, their island level increases. The challenge requires the island to be level x.
+- **Money (Uniz)**: The player attempting to complete the challenge must have x amount of money in their bank account.
+- **Experience**: The player attempting to complete the challenge must have x levels of experience.
+
+For **Money** and **Experience**, the amount can be deducted from the user's account when completing the challenge, just like inventory challenges, or not. It is up to the administrator to choose this in the challenge configuration.
+
+A challenge can require any combination of the three types, but it is not mandatory. A challenge could very well ask for 1,000$ without requiring 10 levels of experience.
+
+| ![challenge_other_completed](https://github.com/user-attachments/assets/106199aa-8f29-4c6e-9f52-70fcb8f24790) |
+|:--:| 
+| *Adding a block to increase the island level then completing the challenge* |
+Note that in this challenge, neither the money (10,000$) nor the experience levels (10) were deducted.
+
 ### Challenges Rewards
 #### Command
 #### Message
