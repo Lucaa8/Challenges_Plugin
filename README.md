@@ -2,6 +2,9 @@
 
 Every person who has played the "Skyblock" game mode in Minecraft knows how important and fun challenges are. Unfortunately, in most Skyblock plugins, the challenges are very limited to just a few tasks, such as "Have x carrots in your inventory" or "Place x stone blocks on your island." The same goes for the range of rewards, which is often very restricted. The goal of this "Challenges" plugin is to bring a real sense of challenge to players by introducing new, never-before-seen tasks while maintaining a simple and efficient management system for both players and staff. A variety of unique rewards can be offered to players to motivate them to complete these increasingly crazy tasks.
 
+## Copyright
+
+
 ## Dependencies
 - Spigot/Paper 1.20
 - [SpigotApi](https://github.com/Lucaa8/SpigotApi)
@@ -125,10 +128,70 @@ A challenge can require any combination of the three types, but it is not mandat
 Note that in this challenge, neither the money (10,000$) nor the experience levels (10) were deducted.
 
 ### Challenges Rewards
+The rewards section deserves a whole paragraph in this file because it is very detailed. Each challenge is completed at least once per island. After that, some challenges can be re-completed. This is why the reward system is divided into two sub-sections: "First-reward" and "Next-reward." This way, it is possible to offer significant rewards with unique content for the first completion of a challenge on an island, and then continue rewarding the efforts of "farming" on subsequent completions, but perhaps with a smaller or completely different reward. Of course, a challenge that can only be completed once is not affected by the "Next-reward" and can be ignored.
+
+In a second step, each reward is divided into 5 sub-rewards, which may or may not be included in the final reward. The 5 sub-rewards apply to both the "First-reward" and the "Next-reward" and can be completely different. For example, the "First-reward" may include money and items, while the "Next-reward" may consist of experience levels. The strength of this system lies in the administrator's flexibility with the rewards, allowing them to easily manage which items are available in what quantities at any point during the progression of an island.
+
+Finally, a sub-reward can have a 'proc' chance. If you feel that giving a villager spawn egg for each completion is too powerful, but still want to allow players to obtain some through farming, Luck rewards are the solution!
+
+| ![challenge_rew_first](https://github.com/user-attachments/assets/dd737a1b-6f86-4f39-a223-f4cef977f86d) | ![challenge_rew_next](https://github.com/user-attachments/assets/dd91e8e3-5599-49ac-9855-bf66275b8c66) |
+|:--:|:--:| 
+| *The First Reward (0 total completions)* | *The Next reward (1+ total completions)* |
+
+Let's dive in the sub-rewards now!
+
 #### Command
+The 'Command' reward is not visible to players and does not appear in the \[Reward\] section of a challenge. It is a special reward designed to execute more complex server-side actions. A good example would be unlocking the 'Nether' island when a specific Nether-related challenge is completed. In [SuperiorSkyblock2](https://www.spigotmc.org/resources/%E2%9A%A1%EF%B8%8F-superiorskyblock2-%E2%9A%A1%EF%B8%8F-the-best-core-on-market-%E2%9A%A1%EF%B8%8F-1-21-1-support.87411/), there is a command (´/cad island acs nether <player> true´) that admins can run to unlock the Nether world for any island. The only thing needed to execute this command automatically is to identify the player who completed the challenge. To achieve this, placeholders have been set up. The placeholder '{P}' is replaced with the player’s name when the command is run by the server.
+
+| ![image](https://github.com/user-attachments/assets/4eff5beb-6fde-43fd-b17a-fef1bae12295) |
+|:--:| 
+| *Helheim is unlocking the Nether Island when completed* |
+
+
+The challenge's first reward would be configured like this. So from now, when a player complete this challenge, it will unlock the Nether world for his whole island.
+```json
+{
+  "First": {
+    "Commands": [
+      "cad island acs nether {P} true"
+    ]
+  }
+}
+```
+
 #### Message
+The "Message" is not really a reward for the player but is part of the system. When a player completes a challenge for the first time, a message is broadcasted to the entire server. For all subsequent completions, a simple personal message is sent to the player as "feedback" confirming that they have successfully completed the challenge.
+
+Since the message is almost always identical, it is stored in global configuration files, and the key is simply referenced in the challenge configuration. This way, if the admin wants to change the message sent upon challenge completion, it is updated for all challenges. At the same time, there is the option to set a custom message for a specific challenge if needed.
+
+| ![image](https://github.com/user-attachments/assets/4b82c7f9-50d9-47f0-ae31-6666625e6753) |
+|:--:| 
+| *Example when a player complete a challenge for the 2nd time* |
+
 #### Money and Experience
+This reward just gives money or experience orbs/levels to the player which complete the challenge.
+- **Experience ORB**: Just a sub-division of a full experience level
+- **Experience LEVEL**: Well, a full green bar of experience on top of the player's hotbar.
+
+Granting full experience levels isn’t always 'fair' for all players. For example, if you award 3 experience levels, a player already at level 54 will receive 1,228 experience points (enough to go from level 54 to 57), while a player at level 4 will only get 51 experience points (enough to go from level 4 to 7). Keep this in mind and use this option carefully.
+
 #### Items
+Grants customisable items to the player upon completion. Items can range from basic ones, like simple dirt or stone blocks, to very complex and unique ones, such as swords with normally impossible enchantments or leather armor in unusual colors!
+
+| ![challenge_rew1](https://github.com/user-attachments/assets/2e2a09fa-59b1-470d-91b9-99677dfeb1da) | ![challenge_rew2](https://github.com/user-attachments/assets/7a012d6d-b3a7-4df1-8892-cd618dbe4505) |
+|:--:|:--:| 
+| *A custom reward for the Acacia Challenge* | *The given item has a custom meta* |
+
+Here are the metadata currently supported by the plugin (These are handled by my [SpigotApi Meta](https://github.com/Lucaa8/SpigotApi/tree/master/src/main/java/ch/luca008/SpigotApi/Item/Meta) library);
+- **Written Book** Add title, author signature and text inside it
+- **Leather Armor** Customize the colour
+- **Potion** Normal, Splash and Area potions are included. Add as many effects on them, choose the duration and level of each effect
+- **Skull** Gives own player skulls, [Minecraft-Heads](https://minecraft-heads.com/) customizable heads like the Earth, letters, etc... or any user's head!
+- **TrimArmor** Customize skins on armor
+- **TropicalFish** Set an infinite combo of colour and patterns for fish eggs
+
+### Lang
+EN et FR
 ### Staff interactions
 /cadmin
 
