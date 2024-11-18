@@ -79,19 +79,24 @@ The daily completion count is reset for each island every day at 4:00 AM. As a r
 Finally, challenges are divided into four different types. See the list below:
 
 #### Challenge - INVENTORY
-Les challenges d'inventaire sont assez directs. Ils demandent aux joueurs d'avoir un certain nombre d'objects dans leur inventaire au moment de réaliser le défi. Lorsqu'un joueur progresse dans un défi d'inventaire, les items utilisés sont supprimés de son inventaire. 
+Inventory challenges are quite straightforward. They require players to have a certain number of specific items in their inventory at the time of completing the challenge. As a player progresses in an inventory challenge, the items used are removed from their inventory.
 | ![challenge_inv_progress](https://github.com/user-attachments/assets/ae90c200-e33e-4e97-8068-9e5638d39f96) | ![challenge_inv_completed](https://github.com/user-attachments/assets/2954bd3e-dda3-4a26-a509-bd2277dab385) |
 |:--:|:--:| 
 | *The player progressed a challenge* | *The player completed a challenge and received the reward* |
 
-Certains défis peuvent demander des items très spécifiques comme des armures en cuir de couleur, des potions ou des livres enchantés. Puisque il serait trop long d'écrire toutes ces meta d'item sur le challenge, le joueur peut faire clic droit sur l'îcone afin de voir en détails la liste des objets requis et récompenses spéciales.
+Some challenges may require very specific items, such as dyed leather armor, potions, or enchanted books. Since it would take too long to list all the item metadata directly on the challenge, players can right-click on the icon to view a detailed list of the required items and special rewards.
 ![challenge_inv_details](https://github.com/user-attachments/assets/267aa589-fbd6-4602-8683-d930f6146383)
 |:--:| 
 | *By right clicking the challenge, more details about requirements are displayed* |
 
 #### Challenge - ISLAND
+"Island" challenges are those that require players to have a certain number of blocks/entities placed on their island. These challenges cannot be "progressive." When completing the challenge, the player must have all the required blocks/entities placed around them within a certain radius. Either the requirements are met and the challenge is completed, or they are not, and the challenge is rejected. The blocks/entities counted in the challenge are not removed from the island once the challenge is completed. The goal of these challenges is to encourage players to build monuments and works of art on their islands.
+![challenge_is_completed](https://github.com/user-attachments/assets/17efd31c-6955-4ff0-804e-40a51516acf3)
+|:--:| 
+| *Fails because of the missing squid, then adding it and complete the challenge* |
+
 #### Challenge - STATISTIC
-Active challenge ?
+Statistic challenges are a bit special as 
 #### Challenge - OTHER
 ### Challenges Rewards
 #### Command
