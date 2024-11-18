@@ -52,7 +52,43 @@ A category contains several challenges within it. A category can be either locke
 | *For convenience, the player can try to complete the challenge by clicking on the text* |
 
 ### Challenges
+Let’s now get to the heart of the matter: the challenges. Each category contains a series of challenges. Players can open a category simply by clicking on the icons, as described in the previous section. Just like categories, a challenge can be either locked or unlocked. Similarly, locked challenges are displayed with a red glass pane, and players can click on them to see the missing requirements.
+| ![image](https://github.com/user-attachments/assets/8a98eb03-4b57-485c-9798-e9fd1ba83b1c) |
+|:--:| 
+| *Challenges of the Carrot category* |
+
+A challenge always includes the following:
+- **Name**: The title of the challenge.
+- **Description**: A brief explanation of the challenge.
+- **Requirements**: A list of tasks or items needed to complete it.
+- **Rewards**: A list of what players receive upon completion.
+- **Completion Count**: How many times the challenge has been completed in total.
+- **Daily Completion Count**: How many times it has been completed today.
+
+Some challenges can be completed multiple times, while others cannot. For repeatable challenges, the requirements become progressively more demanding with each completion.
+| ![challenge-onetime](https://github.com/user-attachments/assets/d68814f1-2d60-489b-99ac-4b9f193803cc) | ![challenge-infinite](https://github.com/user-attachments/assets/f81f2291-39ff-40e6-bfc8-ef6a694dcb47) |
+|:--:|:--:| 
+| *This challenge has been completed one time and cannot be completed anymore* | *This challenge is infinite with augmenting requirements each (daily) completion* |
+
+![challenge_inv_infinite](https://github.com/user-attachments/assets/7c49ce30-a9a8-4cd8-9578-51516a9d38af)
+|:--:| 
+| *The player completed the same challenge multiple times, thus augmenting the carrot needed each time* |
+
+The daily completion count is reset for each island every day at 4:00 AM. As a result, the completion requirements are reset to their simpler initial levels.
+
+Finally, challenges are divided into four different types. See the list below:
+
 #### Challenge - INVENTORY
+Les challenges d'inventaire sont assez directs. Ils demandent aux joueurs d'avoir un certain nombre d'objects dans leur inventaire au moment de réaliser le défi. Lorsqu'un joueur progresse dans un défi d'inventaire, les items utilisés sont supprimés de son inventaire. 
+| ![challenge_inv_progress](https://github.com/user-attachments/assets/ae90c200-e33e-4e97-8068-9e5638d39f96) | ![challenge_inv_completed](https://github.com/user-attachments/assets/2954bd3e-dda3-4a26-a509-bd2277dab385) |
+|:--:|:--:| 
+| *The player progressed a challenge* | *The player completed a challenge and received the reward* |
+
+Certains défis peuvent demander des items très spécifiques comme des armures en cuir de couleur, des potions ou des livres enchantés. Puisque il serait trop long d'écrire toutes ces meta d'item sur le challenge, le joueur peut faire clic droit sur l'îcone afin de voir en détails la liste des objets requis et récompenses spéciales.
+![challenge_inv_details](https://github.com/user-attachments/assets/267aa589-fbd6-4602-8683-d930f6146383)
+|:--:| 
+| *By right clicking the challenge, more details about requirements are displayed* |
+
 #### Challenge - ISLAND
 #### Challenge - STATISTIC
 Active challenge ?
