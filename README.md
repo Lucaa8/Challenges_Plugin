@@ -22,10 +22,6 @@ The plugin is fully configured using JSON. It is highly advanced, allowing the c
 
 - Find the application's repository at the following URL: [Challenges_App](https://github.com/Lucaa8/Challenges_App)
 
-## Commands
-
-## Permissions
-
 ## Functionalities
 It’s time to present the plugin's various features. Starting with a brief description:
 Challenges are displayed and managed through an inventory interface that any player with an island can open. Once opened, the inventory shows categories, which group together challenges with similar themes—like all challenges related to construction. Players can explore each category to find numerous challenges, all presented in an interactive inventory.
@@ -191,7 +187,40 @@ Here are the metadata currently supported by the plugin (These are handled by my
 - **TropicalFish** Set an infinite combo of colour and patterns for fish eggs
 
 ### Lang
-EN et FR
+The entire plugin is currently available in English and French, with separate language files stored in the plugin's configuration. Adding a new language is simple: just copy `EN.json`, rename the file to something like `FR.json` or `EN.json` and place it in the `Lang` folder. Then, replace all the JSON values with the appropriate translations for your language. That’s it! Players can then select any supported language directly in the game.
+
+| ![challenge_lang](https://github.com/user-attachments/assets/4e2cbe26-169c-4253-9c55-ff3a52a0f166) ]
+|:--:| 
+| *Changing the lang in game with /c lang <lang>|reset* |
+
 ### Staff interactions
 /cadmin
 
+## Commands (Players)
+- Open the main menu `/c` or `/challenge`
+- Open a category directly without going through the main menu `/c <category name>`
+- Try to complete a challenge `/c c <challenge name>` or `/c complete <challenge name>`
+- Cancel an active statistical challenge `/c cancel CONFIRM`
+- Change the lang `/c lang <lang>|reset`
+
+## Permissions
+### Player related
+All of them: challenge.use.*
+- **challenge.use.command** Enables the player to use the `/c` or `/challenge` command
+- **challenge.use.complete** Enables the player to use the `/c complete <challenge name>` command
+- **challenge.use.cancel** Enables the player to wheel click on an active statistical challenge or use the `/c cancel CONFIRM` command to drop an active challenge
+### Staff related
+All of them: **challenge.admin.*** \
+All of the toggle: **challenge.admin.toggle.*** \
+All of the reload: **challenge.admin.reload.*** \
+All of the editor: **challenge.admin.editor.***
+- **challenge.admin.use** Enables the player to use the `/cadmin` command which display help
+- **challenge.admin.toggle.all** Enables the player to toggle state of the plugin (command `/cadmin enable|disable`)
+- **challenge.admin.toggle.cat** Enables the player to toggle a category on/off with the command `/cadmin toggle cat <category>`
+- **challenge.admin.toggle.cha** Enables the player to toggle a challenge on/off with the command `/cadmin toggle cha <category>`
+- **challenge.admin.reload.config** Enables the player to reload the global configuration file (`config.json`)
+- **challenge.admin.reload.lang** Enables the player to reload the folder `Lang` (to update a translation or adding a new lang)
+- **challenge.admin.editor.island** Enables the player to edit every island's challenges. From total/daily completion to full reset.
+- **challenge.admin.editor.app** Enables the player to use the command `/cadmin editor new|kill` to open or kill a session with the Csharp application
+- **challenge.admin.promptable** Allows the player to open a sign interface and write text in it to send it to the server. Useful for the island editor.
+- **challenge.admin.bypass** Enables the player to still access any challenge even if the plugin is disabled or a category/challenge is disabled
