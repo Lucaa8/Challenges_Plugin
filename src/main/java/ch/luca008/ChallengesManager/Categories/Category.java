@@ -153,8 +153,8 @@ public class Category {
             if(getIcon().hasMeta()){
                 ib.setMeta(getIcon().getMeta());
             }
-            if(getIcon().getCustomData()>0){
-                ib.setCustomData(getIcon().getCustomData());
+            if(getIcon().getCustomModelData()>0){
+                ib.setCustomData(getIcon().getCustomModelData());
             }
             ib.setLore(StringUtils.asLore((!isActive()?"§4(Inactive)§r\n":"")+Challenges.getGlobalConfig().getCategoriesDescriptionColor()+getDescription()+"\n\n"+player.getChallengeMessage("Category-Lore")));
         }

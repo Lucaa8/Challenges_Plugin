@@ -12,8 +12,8 @@
     <description>Custom challenges for Skyblock</description>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <mainClass>ch.luca008.Challenges</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -40,13 +40,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.20.1-R0.1-SNAPSHOT</version>
+            <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.bgsoftware</groupId>
             <artifactId>SuperiorSkyblockAPI</artifactId>
-            <version>2023.2</version>
+            <version>2024.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>ch.luca008</groupId>
             <artifactId>SpigotApi</artifactId>
-            <version>1.1</version>
+            <version>2.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -67,20 +67,30 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>attach-javadocs</id>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <quiet>true</quiet>
+                            <additionalJOptions>
+                                <additionalOption>-Xdoclint:none</additionalOption> <!-- Remove strict checks -->
+                            </additionalJOptions>
+                        </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
                 <configuration>
-                    <shadedArtifactAttached>true</shadedArtifactAttached>
-                    <shadedClassifierName>shaded</shadedClassifierName>
-                    <outputDirectory>D:\Dev\SkyblockV4\Servers\Paper1201\plugins</outputDirectory>
+                    <outputDirectory>C:\Users\lucad\Desktop\Servers\1_Skyblock_1204\plugins</outputDirectory>
+                    <finalName>Challenges-${version}</finalName>
                 </configuration>
             </plugin>
         </plugins>

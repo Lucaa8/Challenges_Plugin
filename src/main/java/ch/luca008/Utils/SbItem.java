@@ -25,7 +25,7 @@ public class SbItem extends Item {
     }
 
     public SbItem(String privateName, Item item){
-        this(privateName, item.getUid(), item.getMaterial(), item.getName(), item.getLore(), item.getEnchantList(), item.getFlags(), item.getAttributes(), item.getMeta(), item.getRepairCost(), item.getCustomData(), item.getDamage(), item.isInvulnerable());
+        this(privateName, item.getUid(), item.getMaterial(), item.getName(), item.getLore(), item.getEnchantList(), item.getFlags(), item.getAttributes(), item.getMeta(), item.getRepairCost(), item.getCustomModelData(), item.getDamage(), item.isInvulnerable());
     }
 
     public SbItem(Item item){

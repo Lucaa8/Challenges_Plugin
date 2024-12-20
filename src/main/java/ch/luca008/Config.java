@@ -4,11 +4,9 @@ import ch.luca008.ChallengesManager.Manager;
 import ch.luca008.SpigotApi.Item.ItemBuilder;
 import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.Utils.JsonUtils;
-import ch.luca008.Utils.PromptPlayer;
 import ch.luca008.Utils.SbItem;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.material.Dye;
 import org.json.simple.JSONObject;
 
 public class Config {
@@ -23,6 +21,8 @@ public class Config {
     private boolean editorLogging = false; //Do log packet in/out ? (Except KeepAlive)
     private int editorKeepAliveTimeout = 60000;
     private int editorWaitingClientTimeout = 60000; //60000/500=120 essais de 500ms
+    private DyeColor promptColor;
+    private String cancelCmd;
 
     public Config(){
         reload();
@@ -52,11 +52,11 @@ public class Config {
             }
             if(json.containsKey("Prompt-Color")) {
                 try {
-                    SpigotApi.getPromptApi().promptColor = DyeColor.valueOf(((String) json.get("Prompt-Color")).toUpperCase());
+                    promptColor = DyeColor.valueOf(((String) json.get("Prompt-Color")).toUpperCase());
                 } catch (Exception ignored) {}
             }
             if(json.containsKey("Prompt-Cancel-CMD")){
-                SpigotApi.getPromptApi().cancelCmd = (String)json.get("Prompt-Cancel-CMD");
+                cancelCmd = (String)json.get("Prompt-Cancel-CMD");
             }
             if(json.containsKey("Editor-Port")){
                 editorPort = JsonUtils.getInt(json, "Editor-Port");
@@ -92,10 +92,10 @@ public class Config {
         return doReset;
     }
     public DyeColor getPromptColor() {
-        return SpigotApi.getPromptApi().promptColor;
+        return promptColor;
     }
     public String getPromptCancelCmd() {
-        return SpigotApi.getPromptApi().cancelCmd;
+        return cancelCmd;
     }
     public int getEditorPort(){
         return editorPort;

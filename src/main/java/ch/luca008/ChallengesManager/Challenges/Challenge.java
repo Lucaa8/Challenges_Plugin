@@ -171,8 +171,8 @@ public class Challenge {
         }else{
             Storage.ChallengeStorage chaStr = storage.getStorage(getUuid());
             ib.setMaterial(getIcon().getMaterial());
-            if(getIcon().getCustomData()>0){
-                ib.setCustomData(getIcon().getCustomData());
+            if(getIcon().getCustomModelData()>0){
+                ib.setCustomData(getIcon().getCustomModelData());
             }
             if(getIcon().hasMeta()){
                 ib.setMeta(getIcon().getMeta());

@@ -1,5 +1,6 @@
 package ch.luca008.Utils;
 
+import ch.luca008.Challenges;
 import ch.luca008.SpigotApi.Api.PromptApi;
 import ch.luca008.SpigotApi.SpigotApi;
 import org.bukkit.entity.Player;
@@ -12,7 +13,7 @@ public class PromptPlayer {
             return;
         }
         p.closeInventory();
-        if(!SpigotApi.getPromptApi().promptPlayer(p, callback, initialLines)){
+        if(!SpigotApi.getPromptApi().promptPlayer(p, callback, Challenges.getGlobalConfig().getPromptColor(), Challenges.getGlobalConfig().getPromptCancelCmd(), initialLines)){
             callback.getInput(true, new String[0], "");
         }
     }

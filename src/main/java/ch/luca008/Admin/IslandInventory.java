@@ -121,8 +121,8 @@ public class IslandInventory {
                     if (isUnlocked) {
                         SbItem icon = c.getIcon();
                         itemB.setMaterial(icon.getMaterial());
-                        if(icon.getCustomData()>0){
-                           itemB.setCustomData(icon.getCustomData());
+                        if(icon.getCustomModelData()>0){
+                           itemB.setCustomData(icon.getCustomModelData());
                         }
                         if(icon.hasMeta()){
                             itemB.setMeta(icon.getMeta());
@@ -151,8 +151,8 @@ public class IslandInventory {
                     if(isUnlocked){
                         SbItem icon = cha.getIcon();
                         itemB.setMaterial(icon.getMaterial());
-                        if(icon.getCustomData()>0){
-                            itemB.setCustomData(icon.getCustomData());
+                        if(icon.getCustomModelData()>0){
+                            itemB.setCustomData(icon.getCustomModelData());
                         }
                         if(icon.hasMeta()){
                             itemB.setMeta(icon.getMeta());
