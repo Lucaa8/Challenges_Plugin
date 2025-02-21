@@ -21,8 +21,8 @@ public class Config {
     private boolean editorLogging = false; //Do log packet in/out ? (Except KeepAlive)
     private int editorKeepAliveTimeout = 60000;
     private int editorWaitingClientTimeout = 60000; //60000/500=120 essais de 500ms
-    private DyeColor promptColor;
-    private String cancelCmd;
+    private DyeColor promptColor = DyeColor.BLACK;
+    private String cancelCmd = "exit";
 
     public Config(){
         reload();
