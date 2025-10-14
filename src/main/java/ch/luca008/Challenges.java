@@ -27,9 +27,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-//Command to add nether access
-//cadmin island acs type playername true|false
-//with type=nether or end not case sensitive
 public class Challenges extends JavaPlugin implements Listener {
 
     private File trueFile = new File(getDataFolder(), "true.state");
