@@ -24,6 +24,10 @@ import javax.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+//Command to add nether access
+//cadmin island acs type playername true|false
+//with type=nether or end not case sensitive
+
 public class ChallengeAdminCommand implements CommandExecutor {
 
     private Challenges main;

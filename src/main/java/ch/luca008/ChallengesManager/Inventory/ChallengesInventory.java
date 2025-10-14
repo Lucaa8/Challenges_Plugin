@@ -57,7 +57,7 @@ public class ChallengesInventory {
         Optional<Storage> optStorage = player.getIslandStorage();
         if(optStorage.isPresent()){
             Storage storage = optStorage.get();
-            Inventory inventory = Bukkit.createInventory(null, 54, player.getChallengeMessage("Inventory-Title"));
+            Inventory inventory = Bukkit.createInventory(null, 54, player.getChallengeMessage("Inventory-Title") + (Challenges.Main.areChallengesEnabled()?"":" §c§o(Inactifs)"));
             Challenges.getManager().getAsyncManager().buildCategoriesItems(categoriesOnPage(page),storage,player).forEach(inventory::setItem);
             if(getMaxCategoriesPages()>1){
                 Utils.addChangePage(inventory, page, player, "Main");
@@ -84,7 +84,8 @@ public class ChallengesInventory {
         Optional<Storage> optStorage = player.getIslandStorage();
         if(optStorage.isPresent()){
             Storage storage = optStorage.get();
-            Inventory inventory = Bukkit.createInventory(null, 54, player.getChallengeMessage("Category-Name-Inventory-Title",Map.entry("{0}",category.getName())));
+            String inactiveWarning = !category.isActive() ? " §c§o(Inactive)" : (!Challenges.Main.areChallengesEnabled() ? " §c§o(Inactifs)" : "");
+            Inventory inventory = Bukkit.createInventory(null, 54, player.getChallengeMessage("Category-Name-Inventory-Title",Map.entry("{0}",category.getName())) + inactiveWarning);
             Challenges.getManager().getAsyncManager().buildCategoryItems(challengesOnPage(category,page),storage,player).forEach(inventory::setItem);
             if(getMaxCategoryPages(category)>1){
                 Utils.addChangePage(inventory, page, player, "Category");
