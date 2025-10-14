@@ -42,7 +42,7 @@ public class Challenges extends JavaPlugin implements Listener {
     private Economy economy;
     private Reset reset;
     private SessionManager editor;
-    public final static String clientVersion = "1.2.0";
+    public final static String clientVersion = "1.3.0";
 
     private void commandsRegister(){
         this.getCommand("challenge").setExecutor(new ChallengeCommand());
@@ -64,6 +64,7 @@ public class Challenges extends JavaPlugin implements Listener {
         commandsRegister();
         eventsRegister();
         challenges.load();
+        areChallengesEnabled = getStateFile();
         lang = Lang.getInstance(new File(getDataFolder(),"Lang"));
         inventoryManager = new ChallengesInventory();
         setupEconomy();
