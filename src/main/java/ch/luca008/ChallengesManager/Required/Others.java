@@ -187,7 +187,8 @@ public class Others implements Required{
         }
         public String toLore(UniPlayer player){
             if(count<=0)return "";
-            return "§f -§b " + count + " §a" +Challenges.getGlobalConfig().getCurrencyName()+(delete?"\n"+player.getChallengeMessage("Challenge-Item-Required-Others-Money-Delete"):"");
+            String warning = "\n" + player.getChallengeMessage("Challenge-Item-Required-Others-Money" + (delete ? "-Delete" : ""));
+            return "§f -§b " + count + " §a" +Challenges.getGlobalConfig().getCurrencyName()+warning;
         }
         @Override
         public String toString() {
@@ -270,7 +271,8 @@ public class Others implements Required{
         }
         public String toLore(UniPlayer player){
             if(count<=0)return "";
-            return "§f -§b " + count + " §a" +player.getChallengeMessage(type.getLangKey())+(delete?"\n"+player.getChallengeMessage("Challenge-Item-Required-Others-Exp-Delete"):"");
+            String warning = "\n" + player.getChallengeMessage("Challenge-Item-Required-Others-Exp" + (delete ? "-Delete" : ""));
+            return "§f -§b " + count + " §a" +player.getChallengeMessage(type.getLangKey())+warning;
         }
         public UUID getUuid(){
             return uuid;
