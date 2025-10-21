@@ -122,27 +122,24 @@ public class ChallengesInventory {
         inventory.setItem(24, roundItemstack);
         inventory.setItem(25, roundItemstack);
         int reqMax = 1, rewMax = 1;
-        if(c.getRequired() instanceof Items){
-            Items req = (Items)c.getRequired();
-            ItemStack[] items;
-            Storage sto = player.getIslandStorage().orElse(null);
-            if(sto!=null&&sto.getStorage(c.getUuid()).hasCompletable()){
-                Storage.ChallengeStorage challengeStorage = sto.getStorage(c.getUuid());
-                InventoryCompletable completable = (InventoryCompletable) challengeStorage.getCompletable();
-                List<Items.Item> missing = new ArrayList<>();
-                for(Items.Item i : req.getItems()){
-                    int requiredCount = i.getCount()+(i.getIncrement()*challengeStorage.getDailyCompleted());
-                    int progressCount = completable.getCompletableCount(i.getUuid());
-                    if(progressCount<requiredCount){
-                        missing.add(new Items.Item(i.getItem(), requiredCount-progressCount, 0, 0));
-                    }
-                }
-                missing.sort((o1, o2) -> Integer.compare(o1.getCount(),o2.getCount())*-1);
-                items = Items.getItems(missing, player, -1);
-            }else{
-                List<Items.Item> itemReq = req.getItems();
-                items = Items.getItems(itemReq, player, -1);
-            }
+        if(c.getRequired() instanceof Items req){
+            ItemStack[] items = player.getIslandStorage()
+                    .map(islandStorage -> islandStorage.getStorage(c.getUuid()))
+                    .filter(Storage.ChallengeStorage::hasCompletable)
+                    .map(challengeStorage -> {
+                        InventoryCompletable completable = (InventoryCompletable) challengeStorage.getCompletable();
+                        List<Items.Item> missing = new ArrayList<>();
+                        for(Items.Item i : req.getItems()){
+                            int requiredCount = i.getCount()+(i.getIncrement()*challengeStorage.getDailyCompleted());
+                            int progressCount = completable.getCompletableCount(i.getUuid());
+                            if(progressCount<requiredCount){
+                                missing.add(new Items.Item(i.getItem(), requiredCount-progressCount, 0, 0));
+                            }
+                        }
+                        missing.sort((o1, o2) -> Integer.compare(o1.getCount(),o2.getCount())*-1);
+                        return Items.getItems(missing, player, -1);
+                    })
+                    .orElseGet(() -> Items.getItems(req.getItems(), player, -1));
             reqMax = (items.length+6)/7;
             items = ItemUtils.getItemstacks(items, reqPage);
             for(int i = 0; i<(Math.min(items.length, 7)); i++){

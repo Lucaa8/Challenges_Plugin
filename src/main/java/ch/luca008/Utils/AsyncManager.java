@@ -90,7 +90,7 @@ public class AsyncManager {
                     is = s.applyOwner(is, player.getOfflinePlayer().getUniqueId());
                 }
             }
-            return Map.entry(c.getSlot(),ItemUtils.removeNamedColor(SpigotApi.getNBTTagApi().getNBT(is).setTag("HideFlags",127).getBukkitItem(),c.getName()));
+            return Map.entry(c.getSlot(),ItemUtils.removeNamedColor(SpigotApi.getNBTTagApi().getNBT(is).setTag("HideFlags",255).getBukkitItem(),c.getName()));
         },executor);
     }
 

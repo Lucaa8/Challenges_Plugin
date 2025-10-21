@@ -5,6 +5,8 @@ import ch.luca008.ChallengesManager.IslandStorage.InventoryCompletable;
 import ch.luca008.ChallengesManager.IslandStorage.Storage;
 import ch.luca008.Comparators.ItemCountComparator;
 import ch.luca008.Comparators.LongBufferComparator;
+import ch.luca008.SpigotApi.Api.NBTTagApi;
+import ch.luca008.SpigotApi.SpigotApi;
 import ch.luca008.UniPlayer;
 import ch.luca008.Utils.ItemUtils;
 import ch.luca008.Utils.JsonUtils;
@@ -179,7 +181,14 @@ public class Items implements Required{
                 for(int i=0;i<=35;i++){
                     if(missing<=0)break;
                     ItemStack current = player.getInventory().getItem(i);
-                    if(item.getItem().isSimilar(current, player)){//p used for book meta {P} balise
+                    if(current==null)continue;
+                    ItemStack toCompare = current.clone();
+                    // We don't care about the repair cost of an item to progress in a required items challenge.
+                    NBTTagApi.NBTItem toCompareNBT = SpigotApi.getNBTTagApi().getNBT(toCompare);
+                    if(toCompareNBT.hasTag("RepairCost")){
+                        toCompare = toCompareNBT.removeTag("RepairCost").getBukkitItem();
+                    }
+                    if(item.getItem().isSimilar(toCompare, player)){//p used for book meta {P} balise
                         hasProgressed = true;
                         int amount = current.getAmount();
                         if(amount<missing){
