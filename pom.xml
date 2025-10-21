@@ -6,7 +6,7 @@
 
     <groupId>ch.luca008</groupId>
     <artifactId>Challenges</artifactId>
-    <version>1.1.5</version>
+    <version>1.2.0</version>
 
     <name>Uni-Challenges</name>
     <description>Custom challenges for Skyblock</description>
